@@ -1,4 +1,4 @@
-# Easy-Build-Env
+# Easy-Build-Env (ALPHA STAGE, NOT FINISHED)
 Just a small script I made and use when building NT5 for a quick lazy mans build. Adapted so others can use
 
 
