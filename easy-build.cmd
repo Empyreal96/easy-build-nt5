@@ -108,8 +108,10 @@ echo Loading Razzle for 32bit Windows
 cmd.exe /k "%~dp0\razzle.cmd free offline && cd /d %~dp0 && cd .. && easy-build.cmd"
 pause
 :Razzle64
+cd /d %~dp0
+cd ..
 echo Loading Razzle for 64bit Windows
-cmd.exe /k "%~dp0\razzle64.cmd free offline && cd /d %~dp0 && cd .. && easy-build.cmd"
+cmd.exe /k ".\tools\razzle64.cmd free offline && cd /d %_NTROOT% && easy-build.cmd"
 pause
 
 
