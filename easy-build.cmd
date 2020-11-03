@@ -118,33 +118,34 @@ REM I have left the 'var' command in because I use it to see what variables are 
 :mainmenu
 cd %_NTROOT%
 cls
-echo ------------------------------------------------------------------------------
+echo --------------------------------------------------------------------------------------------
 echo  Empyreal's Easy-Build-Env  (Open this file in notepad for credits)
-echo ------------------------------------------------------------------------------
+echo --------------------------------------------------------------------------------------------
 echo  Build User: %_NTUSER% 		Build Machine: %COMPUTERNAME%
 echo  Build Root: %~d0%_NTROOT%		Razzle Tool Path: %RazzleToolPath%
 echo  Postbuild Dir: %_NTPOSTBLD%	Binplace Exclude File: %BINPLACE_EXCLUDE_FILE%
-echo ------------------------------------------------------------------------------
+echo --------------------------------------------------------------------------------------------
 echo  Build Arch: %_BuildArch% - Release Type: %_BuildType% - Version: %_Build_No%
-echo ------------------------------------------------------------------------------
+echo --------------------------------------------------------------------------------------------
 echo  Here you will be able to run basic prebuild, build and postbuild scripts.
 echo  If this is your FIRST time building the currently extracted src, run Prebuild
 REM echo ------------------------------------------------------------------------------
 echo.
 echo  pre) Run Prebuild script
-echo ------------------------------------------------------------------------------
+echo --------------------------------------------------------------------------------------------
 echo  1) Clean Build (Full err path, delete object files, no checks)
 echo  2) 'Dirty' Build (Full err path, no checks)
 echo  b) Open build.err in Notepad
-echo ------------------------------------------------------------------------------
+echo --------------------------------------------------------------------------------------------
 echo  3) Start Postbuild
 echo  p) Open postbuild.cmd's build.err
-echo ------------------------------------------------------------------------------
+echo --------------------------------------------------------------------------------------------
 echo - DON'T FORGET TO COPY MISSING.7Z CONTENTS
-echo ------------------------------------------------------------------------------
+echo --------------------------------------------------------------------------------------------
 echo  4) Create ISO image
 echo  5) Exit
 echo.
+echo ____________________________________________________________________________________________
 set /p NTMMENU=Select:
 if "%NTMMENU%"=="1" goto CleanBuild
 if "%NTMMENU%"=="2" goto DirtyBuild
