@@ -83,12 +83,16 @@ goto mainmenu
 :CleanBuild
 cd /d %~d0\srv03rtm
 timeout /t 3
-cmd /c build -bcZP&& pause && goto mainmenu
+cmd /c build -bcZP
+pause
+goto mainmenu
 
 :DirtyBuild
 cd /d %~d0\srv03rtm
 timeout /t 3
-cmd /c build -bZP&& pause && goto mainmenu
+cmd /c build -bZP
+pause
+goto mainmenu
 
 :MakeISO
 cls
@@ -103,6 +107,7 @@ echo `per` - Windows XP Home Edition
 echo `pro` - Windows XP Professional
 echo.
 set /p oscd=
-cmd /c oscdimg.cmd %oscd%&& timeout /t 5 && goto mainmenu
+cmd /c oscdimg.cmd %oscd%&& timeout /t 5
+goto mainmenu
 
 :EOF
