@@ -29,7 +29,7 @@ REM
 REM
 REM
 REM =================================================================================
-color 7D
+color 0D
 cd %_NTROOT%
 cls
 echo loading
