@@ -163,21 +163,19 @@ REM
 echo.
 echo This script needs to run in Razzle.
 echo Starting Razzle32/64 Environment..
-timeout /t 3 /nobreak
+echo.
 if exist %WinDir%\SysWOW64 (goto Razzle64) else (goto Razzle32)
 REM
 REM These are simply 'loaders' for 32 bit and 64 bit razzle;
 REM It uses cmd to (1) execute Razzle, (2) change to the root Build folder and (3) run this file again inside razzle.
 REM
 :Razzle32
-cls
 echo Loading Razzle for 32bit Windows
 cmd.exe /k "%~dp0\razzle.cmd free offline && cd /d %~dp0 && cd .. && easy-build.cmd"
 pause
 :Razzle64
 cd /d %~dp0
 cd ..
-cls
 echo Loading Razzle for 64bit Windows
 cmd.exe /k ".\tools\razzle64.cmd free offline && easy-build.cmd"
 pause
@@ -186,6 +184,10 @@ REM Menu, pretty self explanitory on the purpose, echo loads of shit with handy 
 REM I have left the 'var' command in because I use it to see what variables are set
 REM
 :mainmenu
+mode con:cols=95 lines=32
+REM
+REM Here we will be setting some of the aliases used by razzle
+REM
 cd %_NTROOT%
 cls
 echo --------------------------------------------------------------------------------------------
@@ -206,15 +208,16 @@ echo  pre) Run Prebuild script
 echo --------------------------------------------------------------------------------------------
 echo  1) Clean Build (Full err path, delete object files, no checks)
 echo  2) 'Dirty' Build (Full err path, no checks)
+echo  3) Build Specific Directory Only
 echo  b) Open build.err in Notepad
 echo --------------------------------------------------------------------------------------------
 echo - DON'T FORGET TO COPY MISSING.7Z CONTENTS
 echo --------------------------------------------------------------------------------------------
-echo  3) Start Postbuild
+echo  4) Start Postbuild
 echo  p) Open postbuild.cmd's build.err
 echo --------------------------------------------------------------------------------------------
-echo  4) Create ISO image
-echo  5) Drop to Razzle Prompt
+echo  5) Create ISO image
+echo  6) Drop to Razzle Prompt
 echo.
 echo ____________________________________________________________________________________________
 set /p NTMMENU=Select:
@@ -222,12 +225,13 @@ if "%NTMMENU%"=="1" goto CleanBuild
 if "%NTMMENU%"=="2" goto DirtyBuild
 REM Opens the most recent builds error logs in Notepad
 if "%NTMMENU%"=="b" notepad %~d0%_NTROOT%\build.err & goto mainmenu
+if "%NTMMENU%"=="3" goto SpecificBLD
 REM This starts the postbuild process, see postbuild.cmd for info
-if "%NTMMENU%"=="3" if exist %_NTPOSTBLD%\PIDGEN.DLL (cmd /c postbuild.cmd&& timeout /t 5 && goto mainmenu) else (cls && echo Missing RTM ISO files not present in %~d0\binaries.x86fre && timeout /t 10 && goto mainmenu)
+if "%NTMMENU%"=="4" if exist %_NTPOSTBLD%\PIDGEN.DLL (cmd /c postbuild.cmd&& timeout /t 5 && goto mainmenu) else (cls && echo Missing RTM ISO files not present in %~d0\binaries.x86fre && timeout /t 10 && goto mainmenu)
 REM Opens the most recent postbuild error logs in Notepad
 if "%NTMMENU%"=="p" notepad %_NTPOSTBLD%\build_logs\postbuild.err & goto mainmenu
-if "%NTMMENU%"=="4" goto MakeISOCheck
-if "%NTMMENU%"=="5" exit /b
+if "%NTMMENU%"=="5" goto MakeISOCheck
+if "%NTMMENU%"=="6" exit /b
 REM This runs the prebuild.cmd to set up the build environment
 REM If user gets error of file missing, they obviously haven't patched the source with the 4chan/OpenXP files.
 if "%NTMMENU%"=="pre" cmd /c prebuild.cmd&& pause && goto mainmenu
@@ -271,6 +275,16 @@ REM
 REM This checks the Postbuild directory for PIDGEN.DLL from the missing files found at the Anons rentry guide
 REM If the file doesn't exist, we presume the user has NOT copied the required missing files and returns them back
 REM
+
+:SpecificBLD
+REM
+REM In this section we take the users input, set it as a variable, then run against the clean build command
+REM
+set /p UserInput_var=Type Full Path to Folder:
+cd %UserInput_var%
+build -bcZP
+pause
+goto mainmenu
 :MakeISOCheck
 if exist %_NTPOSTBLD%\PIDGEN.DLL (goto MakeISO) else (cls && echo Missing RTM ISO files not present in %~d0\binaries.x86fre && timeout /t 10 && goto mainmenu)
 REM
@@ -290,10 +304,11 @@ echo  dtc) Windows Server 2003 Datacenter Edition
 echo  bla) Windows Server 2003 Web Edition
 echo  per) Windows XP Home Edition
 echo  pro) Windows XP Professional
-echo Back)
+echo  back)
 echo.
 set /p oscd=Select:
 if "%oscd%"=="key" goto ProdKeys
+if "%oscd%"=="back" goto mainmenu
 cmd /c oscdimg.cmd %oscd%&& timeout /t 5
 goto mainmenu
 
