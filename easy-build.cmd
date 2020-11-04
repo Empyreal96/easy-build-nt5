@@ -110,6 +110,7 @@ pause
 :Razzle64
 cd /d %~dp0
 cd ..
+cls
 echo Loading Razzle for 64bit Windows
 cmd.exe /k ".\tools\razzle64.cmd free offline && easy-build.cmd"
 pause
@@ -130,7 +131,8 @@ echo ---------------------------------------------------------------------------
 echo  Build Arch: %_BuildArch% - Release Type: %_BuildType% - Version: %_Build_No%
 echo --------------------------------------------------------------------------------------------
 echo  Here you will be able to run basic prebuild, build and postbuild scripts.
-echo  If this is your FIRST time building the currently extracted src, run Prebuild
+echo  If this is your FIRST time building the currently extracted src, run Prebuild.
+echo  Type: info   for some more build info.
 REM echo ------------------------------------------------------------------------------
 echo.
 echo  pre) Run Prebuild script
@@ -145,7 +147,7 @@ echo ---------------------------------------------------------------------------
 echo - DON'T FORGET TO COPY MISSING.7Z CONTENTS
 echo --------------------------------------------------------------------------------------------
 echo  4) Create ISO image
-echo  5) Exit
+echo  5) Drop to Razzle Prompt
 echo.
 echo ____________________________________________________________________________________________
 set /p NTMMENU=Select:
@@ -157,16 +159,16 @@ REM This starts the postbuild process, see postbuild.cmd for info
 if "%NTMMENU%"=="3" cmd /c postbuild.cmd&& timeout /t 5 && goto mainmenu
 REM Opens the most recent postbuild error logs in Notepad
 if "%NTMMENU%"=="p" notepad %_NTPOSTBLD%\build_logs\postbuild.err & goto mainmenu
-if "%NTMMENU%"=="4" goto MakeISO
+if "%NTMMENU%"=="4" goto MakeISOCheck
 if "%NTMMENU%"=="5" exit /b
 REM This runs the prebuild.cmd to set up the build environment
 REM If user gets error of file missing, they obviously haven't patched the source with the 4chan/OpenXP files.
 if "%NTMMENU%"=="pre" cmd /c prebuild.cmd&& timeout /t 5 && goto mainmenu
 if "%NTMMENU%"=="var" set 
-REM TODO: Info page on what is set e.g DDK, NT build version and other bits
-REM if "%NTMMENU%"=="info" goto BuildInfo
+REM Info page on what is set e.g DDK, NT build version and other bits
+if "%NTMMENU%"=="info" goto BuildInfo
 goto mainmenu
-REM :BuildInfo
+REM 
 
 REM This I have found tempermental, most likely me missing something simple..
 REM This is where we init the Clean Building process;
@@ -195,17 +197,22 @@ REM		-Z: No Dependancy checking of source files
 REM		-P: Print time after each directory
 
 :DirtyBuild
-cd /d %~d0\srv03rtm
+cd /d %~d0%_NTROOT%
 timeout /t 3 /nobreak
 cmd /c build -bZP
 pause
 goto mainmenu
 
+REM This checks the Postbuild directory for PIDGEN.DLL from the missing files found at the Anons rentry guide
+REM If the file doesn't exist, we presume the user has NOT copied the required missing files and returns them back
+:MakeISOCheck
+if exist %_NTPOSTBLD%\PIDGEN.DLL (goto MakeISO) else (cls && echo Missing.7z files not present in Postbuild dir && timeout /t 10 && goto mainmenu)
+
 REM This section calls 'oscdimg.cmd' and asks for users input on desired SKU
 REM Not much to say here, it just requires the switch for running oscdimg from razzle
 :MakeISO
 cls
-echo Plese enter one of the SKUs from below to build your ISO (e.g pro)
+echo Please enter one of the SKUs from below to build your ISO (e.g pro)
 echo.
 echo `srv` - Windows Server 2003 Standard Edition
 echo `sbs` - Windows Server 2003 Small Business Edition
@@ -218,5 +225,43 @@ echo.
 set /p oscd=
 cmd /c oscdimg.cmd %oscd%&& timeout /t 5
 goto mainmenu
+
+:BuildInfo
+cls
+if "%_NO_DDK%" == "1" (set ddk_info=DDK Building Off) else (set ddk_info=DDK Building Off)
+if "%_BuildOpt%" == "full opt" (set bldopt_info=Full Optimization) else (set bldopt_info=No Optimization)
+if "%BUILD_OFFLINE%" == "1" (set bldoffline=Offline Build) else (set bldoffline=Online Build)
+if "%BUILD_PRODUCT_VER%" == "500" (set ntbld_ver=Targeted NT5) else (set ntbld_ver=N/A)
+if "%BUILD_MULTIPROCESSOR%" == "1" (set buildthreads_info=Multithreaded Building) else (set buildthreads_info=Singlethreaded Building)
+set "prerel_read="
+for /F "skip=13 delims=" %%i in (%~d0%_NTROOT%\base\prerelease.inc) do if not defined prerel_read set "prerel_read=%%i"
+if "%prerel_read%" == "PRERELEASE=0" (set prerel_info=Prerelease Build) else (set prerel_info=Retail Build)
+echo ----------------------------------------------------------------
+echo Various information about current build environment
+echo ----------------------------------------------------------------
+echo Build Options and Info
+echo %ntbld_ver%
+echo %prerel_info%
+echo %bldoffline%          	
+echo %bldopt_info%         	
+echo %ddk_info%
+echo %buildthreads_info%
+echo.
+echo Other Info
+echo URT Version: %URT_VERSION%
+echo Build Profile: %init%
+echo ----------------------------------------------------------------
+echo For the 4chan guide visit: (Massive Credit to Anons over there)
+echo https://rentry.co/build-win2k3
+echo.
+echo For usage on specific Razzle Build Env commands goto:
+echo https://empyreal96.github.io/build-env-info
+echo.
+echo For other help and info, visit 4chan/g /wxp/
+pause
+goto mainmenu
+
+
+
 
 :EOF
