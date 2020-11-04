@@ -1,5 +1,6 @@
 # Easy-Build GUI For Razzle
 Just a small script I made and use when building NT5 for a quick lazy mans build. Adapted so others can use.
+NOTE: This isn't a new build environment, it is a wrapper for Razzle
 
 ![](https://github.com/Empyreal96/easy-build-nt5/raw/main/easy-build.png)
 
