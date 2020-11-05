@@ -51,5 +51,5 @@ Fixes and tweaks:
 
 - How to use?
 
-  Just double-click, it will ask for UAC, detect if user is 32 or 64 bit, then loads razzle + easy-build
+  Just copy to the same folder as 'razzle.cmd', double-click, it will ask for UAC, detect if user is 32 or 64 bit, then loads razzle + easy-build
 
