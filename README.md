@@ -8,6 +8,26 @@ NOTE: This isn't a new build environment, it is a wrapper for Razzle
 
 ```
 **What's new?**
+
+Added Features:
+	- Building Specific Directories
+	- Switching types CHK and FRE
+	- Switching Retail and Prerelease (also updates build/postbuild paths)
+
+Fixes and tweaks: 
+	- Replaced some 'timeouts' with a pause.
+	- Replaced some vars to avoid issues with added fearures this update.
+	- Input from user is case insensitive now to avoid issues.
+	- Display latest 4chan patch.
+	- UI improvements
+
+
+```
+
+
+
+```
+**Previous changes**
 	- Added checks so that the script cannot run without razzle present
 	- Added checks so user cannot postbuild or make ISO with files missing (missing files not provided)
 	- Added 'First Run' screen (it will only show on very first load)

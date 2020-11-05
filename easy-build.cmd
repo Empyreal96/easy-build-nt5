@@ -1,5 +1,6 @@
 @echo off
-color 09
+color 03
+Title Easy-Build Environment For Razzle and OpenXP Patches
 REM
 REM UAC elevation
 REM I found this method to elevate the script to admin here: https://stackoverflow.com/a/12264592
@@ -185,25 +186,30 @@ REM I have left the 'var' command in because I use it to see what variables are 
 REM
 :mainmenu
 mode con:cols=95 lines=32
+REM set "prerel_read="
+REM for /F "skip=13 delims=" %%i in (%~d0%_NTROOT%\base\prerelease.inc) do if not defined prerel_read set "prerel_read=%%i"
+REM if "%prerel_read%" == "PRERELEASE=0" (set prerel_info=Retail) else (set prerel_info=Prerelease)
 REM
 REM Here we will be setting some of the aliases used by razzle
 REM
 cd %_NTROOT%
 cls
 echo --------------------------------------------------------------------------------------------
-echo  Empyreal's Easy-Build-Env  (Open this file in notepad for credits)
+echo  Empyreal's Easy-Build Wrapper for Razzle  (Open this file in notepad for credits)
 echo --------------------------------------------------------------------------------------------
 echo  Build User: %_NTUSER% 		Build Machine: %COMPUTERNAME%
-echo  Build Root: %~d0%_NTROOT%		Razzle Tool Path: %RazzleToolPath%
+echo  Build Root: %_NTDRIVE%%_NTROOT%		Razzle Tool Path: %RazzleToolPath%
 echo  Postbuild Dir: %_NTPOSTBLD%	Binplace Exclude File: %BINPLACE_EXCLUDE_FILE%
 echo --------------------------------------------------------------------------------------------
-echo  Build Arch: %_BuildArch% - Release Type: %_BuildType% - Version: %_Build_No%
+echo  Target Arch: %_BuildArch% - Release Type: %_BuildType% - Version: %_Build_No%
+echo  Latest 4chan Patch available: Version 9c (28/10/2020)
 echo --------------------------------------------------------------------------------------------
 echo  Here you will be able to run basic prebuild, build and postbuild scripts.
 echo  If this is your FIRST time building the currently extracted src, run Prebuild.
-echo  Type: info   for some more build info.
-REM echo ------------------------------------------------------------------------------
 echo.
+REM echo ------------------------------------------------------------------------------
+echo  info) Build Info.   
+echo  options) Modify Build Options.
 echo  pre) Run Prebuild script
 echo --------------------------------------------------------------------------------------------
 echo  1) Clean Build (Full err path, delete object files, no checks)
@@ -221,23 +227,26 @@ echo  6) Drop to Razzle Prompt
 echo.
 echo ____________________________________________________________________________________________
 set /p NTMMENU=Select:
-if "%NTMMENU%"=="1" goto CleanBuild
-if "%NTMMENU%"=="2" goto DirtyBuild
+echo ____________________________________________________________________________________________
+if /i "%NTMMENU%"=="1" goto CleanBuild
+if /i "%NTMMENU%"=="2" goto DirtyBuild
 REM Opens the most recent builds error logs in Notepad
-if "%NTMMENU%"=="b" notepad %~d0%_NTROOT%\build.err & goto mainmenu
-if "%NTMMENU%"=="3" goto SpecificBLD
+if /i "%NTMMENU%"=="b" notepad %~d0%_NTROOT%\build.err & goto mainmenu
+if /i "%NTMMENU%"=="3" goto SpecificBLD
 REM This starts the postbuild process, see postbuild.cmd for info
-if "%NTMMENU%"=="4" if exist %_NTPOSTBLD%\PIDGEN.DLL (cmd /c postbuild.cmd&& timeout /t 5 && goto mainmenu) else (cls && echo Missing RTM ISO files not present in %~d0\binaries.x86fre && timeout /t 10 && goto mainmenu)
+if /i "%NTMMENU%"=="4" if exist %_NTPOSTBLD%\PIDGEN.DLL (cmd /c postbuild.cmd&& timeout /t 5 && goto mainmenu) else (cls && echo Missing RTM ISO files not present in %~d0\binaries.x86fre && timeout /t 10 && goto mainmenu)
 REM Opens the most recent postbuild error logs in Notepad
-if "%NTMMENU%"=="p" notepad %_NTPOSTBLD%\build_logs\postbuild.err & goto mainmenu
-if "%NTMMENU%"=="5" goto MakeISOCheck
-if "%NTMMENU%"=="6" exit /b
+if /i "%NTMMENU%"=="p" notepad %_NTPOSTBLD%\build_logs\postbuild.err & goto mainmenu
+if /i "%NTMMENU%"=="5" goto MakeISOCheck
+if /i "%NTMMENU%"=="6" exit /b
 REM This runs the prebuild.cmd to set up the build environment
 REM If user gets error of file missing, they obviously haven't patched the source with the 4chan/OpenXP files.
-if "%NTMMENU%"=="pre" cmd /c prebuild.cmd&& pause && goto mainmenu
-if "%NTMMENU%"=="var" set 
+if /i "%NTMMENU%"=="pre" cmd /c prebuild.cmd&& pause && goto mainmenu
+if /i "%NTMMENU%"=="var" set && pause
 REM Info page on what is set e.g DDK, NT build version and other bits
-if "%NTMMENU%"=="info" goto BuildInfo
+if /i "%NTMMENU%"=="info" goto BuildInfo
+if /i "%NTMMENU%"=="options" goto BuildOptions
+REM if /i "%NTMMENU%"=="xptan" goto XPtan
 goto mainmenu
 REM 
 REM Seems to work for me now this bit..
@@ -280,8 +289,26 @@ REM
 REM
 REM In this section we take the users input, set it as a variable, then run against the clean build command
 REM
-set /p UserInput_var=Type Full Path to Folder:
-cd %UserInput_var%
+REM
+REM We will be setting some of the aliases used by razzle as a quick go-to for most directories
+REM 
+cd %~dp0
+cd ..
+echo.
+cls
+echo.
+echo This section we can clean build certain components of the source
+echo So if you want to rebuild Notepad you would type:
+echo.
+echo shell\osshell\accesory\notepad
+echo.
+echo.
+echo Type full path to folder or type back to return:
+set /p userinput=:
+if "%userinput%"=="back" goto mainmenu
+cd %userinput%
+echo BUILD: %CD% STARTED
+echo.
 build -bcZP
 pause
 goto mainmenu
@@ -309,7 +336,7 @@ echo.
 set /p oscd=Select:
 if "%oscd%"=="key" goto ProdKeys
 if "%oscd%"=="back" goto mainmenu
-cmd /c oscdimg.cmd %oscd%&& timeout /t 5
+cmd /c oscdimg.cmd %oscd%&& pause
 goto mainmenu
 
 :ProdKeys
@@ -329,6 +356,7 @@ echo           - QW32K-48T2T-3D2PJ-DXBWY-C6WRJ -
 echo.
 pause
 goto MakeISO
+
 :BuildInfo
 REM
 REM This info page pulls the variables set by Razzle and some source files and
@@ -345,7 +373,10 @@ if "%BUILD_PRODUCT_VER%" == "500" (set ntbld_ver=Targeted NT5) else (set ntbld_v
 if "%BUILD_MULTIPROCESSOR%" == "1" (set buildthreads_info=Multithreaded Building) else (set buildthreads_info=Singlethreaded Building)
 set "prerel_read="
 for /F "skip=13 delims=" %%i in (%~d0%_NTROOT%\base\prerelease.inc) do if not defined prerel_read set "prerel_read=%%i"
-if "%prerel_read%" == "PRERELEASE=0" (set prerel_info=Retail Build) else (set prerel_info=Prerelease Build)
+if "%prerel_read%" == "PRERELEASE=0" set prerel_info=Retail
+if "%prerel_read%" == "PRERELEASE=0 " set prerel_info=Retail
+if "%prerel_read%" == "PRERELEASE=1" set prerel_info=Prerelease
+if "%prerel_read%" == "PRERELEASE=1 " set prerel_info=Prerelease
 echo ----------------------------------------------------------------
 echo Various information about current build environment
 echo ----------------------------------------------------------------
@@ -360,6 +391,7 @@ echo.
 echo Other Info:
 echo URT Version: %URT_VERSION%
 echo Build Profile: %init%
+echo AMD64 Building: Not Supported Yet
 echo ----------------------------------------------------------------
 echo For the 4chan guide visit: (Massive Credit to Anons over there)
 echo https://rentry.co/build-win2k3
@@ -368,10 +400,125 @@ echo For usage on specific Razzle Build Env commands goto:
 echo https://empyreal96.github.io/build-env-info
 echo.
 echo For other help and info, visit 4chan/g /wxp/
+echo Do it for XP-tan
 pause
 goto mainmenu
 
+:BuildOptions
+cls
+echo.
+echo This section we can use to modify various parts of the build process
+echo for example changing Release type, Build type etc
+echo To switch, type the option after the Value:
+echo.
+echo Release: prerelease - retail
+echo Build Type: fre - chk
+REM echo To Change Build Dir: build-out
+REM echo To Change Postbuild Dir: post-out
+echo.
+echo I will slowly add more here over time
+echo.
+echo back) Return
+set /p bldopt=:
+if /i "%bldopt%"=="prerelease" goto PreBuildset
+if /i "%bldopt%"=="retail" goto RTMBuildset
+if /i "%bldopt%"=="fre" goto buildfre
+if /i "%bldopt%"=="chk" goto buildchk
+if /i "%bldopt%"=="back" goto mainmenu
+goto BuildOptions
+
+REM
+
+:PreBuildSet
+echo Backing up original prerelease.inc file...
+if exist "%~d0%_NTROOT%\base\prerelease.orig" del %~d0%_NTROOT%\base\prerelease.orig
+if exist "%~d0%_NTROOT%\base\prerelease.inc" move %~d0%_NTROOT%\base\prerelease.inc %~d0%_NTROOT%\base\prerelease.orig
+echo # > %~d0%_NTROOT%\base\prerelease.inc
+echo # This file is used to control build options that should only appear in  >> %~d0%_NTROOT%\base\prerelease.inc
+echo # internal releases, and NOT the beta or RTM releases.  This controls  >> %~d0%_NTROOT%\base\prerelease.inc
+echo # features such as the GUI mode command prompt and the Win9x upgrade  >> %~d0%_NTROOT%\base\prerelease.inc
+echo # autostress option.  >> %~d0%_NTROOT%\base\prerelease.inc
+echo #  >> %~d0%_NTROOT%\base\prerelease.inc
+echo # To change, simply set PRERELEASE to 1 for private builds, or 0 for beta  >> %~d0%_NTROOT%\base\prerelease.inc
+echo # or RTM builds.  >> %~d0%_NTROOT%\base\prerelease.inc
+echo #  >> %~d0%_NTROOT%\base\prerelease.inc
+echo # **CHANGES HERE WILL REQUIRE A CLEAN BUILD OF THE SETUP, pnp and ntdll components **  >> %~d0%_NTROOT%\base\prerelease.inc
+echo #  >> %~d0%_NTROOT%\base\prerelease.inc
+echo.  >> %~d0%_NTROOT%\base\prerelease.inc
+echo ^^!ifndef PRERELEASE  >> %~d0%_NTROOT%\base\prerelease.inc
+echo PRERELEASE=1 >> %~d0%_NTROOT%\base\prerelease.inc
+echo ^^!endif  >> %~d0%_NTROOT%\base\prerelease.inc
+echo.  >> %~d0%_NTROOT%\base\prerelease.inc
+echo ^^!if $(PRERELEASE)  >> %~d0%_NTROOT%\base\prerelease.inc
+echo C_DEFINES=$(C_DEFINES) -DPRERELEASE  >> %~d0%_NTROOT%\base\prerelease.inc
+echo ^^!endif  >> %~d0%_NTROOT%\base\prerelease.inc
+echo   >> %~d0%_NTROOT%\base\prerelease.inc
+set prerel_info=Prerelease
+echo %prerel_info%
+echo Build has been set to Prerelease
+timeout /t 5
+goto BuildOptions
+
+:RTMBuildset
+echo Backing up original prerelease.inc file...
+if exist "%~d0%_NTROOT%\base\prerelease.orig" del %~d0%_NTROOT%\base\prerelease.orig
+if exist "%~d0%_NTROOT%\base\prerelease.inc" move %~d0%_NTROOT%\base\prerelease.inc %~d0%_NTROOT%\base\prerelease.orig
+echo # > %~d0%_NTROOT%\base\prerelease.inc
+echo # This file is used to control build options that should only appear in  >> %~d0%_NTROOT%\base\prerelease.inc
+echo # internal releases, and NOT the beta or RTM releases.  This controls  >> %~d0%_NTROOT%\base\prerelease.inc
+echo # features such as the GUI mode command prompt and the Win9x upgrade  >> %~d0%_NTROOT%\base\prerelease.inc
+echo # autostress option.  >> %~d0%_NTROOT%\base\prerelease.inc
+echo #  >> %~d0%_NTROOT%\base\prerelease.inc
+echo # To change, simply set PRERELEASE to 1 for private builds, or 0 for beta  >> %~d0%_NTROOT%\base\prerelease.inc
+echo # or RTM builds.  >> %~d0%_NTROOT%\base\prerelease.inc
+echo #  >> %~d0%_NTROOT%\base\prerelease.inc
+echo # **CHANGES HERE WILL REQUIRE A CLEAN BUILD OF THE SETUP, pnp and ntdll components **  >> %~d0%_NTROOT%\base\prerelease.inc
+echo #  >> %~d0%_NTROOT%\base\prerelease.inc
+echo.  >> %~d0%_NTROOT%\base\prerelease.inc
+echo ^^!ifndef PRERELEASE  >> %~d0%_NTROOT%\base\prerelease.inc
+echo PRERELEASE=0 >> %~d0%_NTROOT%\base\prerelease.inc
+echo ^^!endif  >> %~d0%_NTROOT%\base\prerelease.inc
+echo.  >> %~d0%_NTROOT%\base\prerelease.inc
+echo ^^!if $(PRERELEASE)  >> %~d0%_NTROOT%\base\prerelease.inc
+echo C_DEFINES=$(C_DEFINES) -DPRERELEASE  >> %~d0%_NTROOT%\base\prerelease.inc
+echo ^^!endif  >> %~d0%_NTROOT%\base\prerelease.inc
+echo   >> %~d0%_NTROOT%\base\prerelease.inc
+set prerel_info=Retail
+rem echo %prerel_info%
+echo Build has been set to Retail
+timeout /t 5
+goto BuildOptions
 
 
+
+:buildfre
+echo.
+echo Setting Razzle variables to Free
+timeout /t 3
+set _BuildType=fre
+set NTDEBUG=ntsdnodbg
+set _BuildBins=binaries in: %_NTDRIVE%\binaries.x86%_BuildType%
+set _BuildWTitle=Build Window: x86/%_BuildType%/full opt/%_BuildBins%
+set _NTPOSTBLD=%_NTDRIVE%\binaries.x86%_BuildType%
+set _NTTREE=%_NTDRIVE%\binaries.x86%_BuildType%
+set _NTx86TREE=%_NTDRIVE%\binaries.x86%_BuildType%
+set BINPLACE_LOG=%_NTDRIVE%\binaries.x86%_BuildType%\build_logs\binplace.log
+goto BuildOptions
+
+:buildchk
+echo.
+echo Setting Razzle variables to Checked
+timeout /t 3
+set _BuildType=chk
+set NTDEBUG=ntsd
+set _BuildBins=binaries in: %_NTDRIVE%\binaries.x86%_BuildType%
+set _BuildWTitle=Build Window: x86/%_BuildType%/full opt/%_BuildBins%
+set _NTPOSTBLD=%_NTDRIVE%\binaries.x86%_BuildType%
+set _NTTREE=%_NTDRIVE%\binaries.x86%_BuildType%
+set _NTx86TREE=%_NTDRIVE%\binaries.x86%_BuildType%
+set BINPLACE_LOG=%_NTDRIVE%\binaries.x86%_BuildType%\build_logs\binplace.log
+goto BuildOptions
+REM :buildoutputdir
+REM :postbuildoutdir
 
 :EOF
