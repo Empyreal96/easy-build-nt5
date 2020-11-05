@@ -1,5 +1,8 @@
 # Easy-Build GUI For Razzle
 Just a small script I made and use when building NT5 for a quick lazy mans build. Adapted so others can use.
+
+This will be updates over time, I need feedback and suggestiins to make improvements
+
 NOTE: This isn't a new build environment, it is a wrapper for Razzle
 
 ![](https://github.com/Empyreal96/easy-build-nt5/raw/main/easy-build.png)
@@ -11,7 +14,7 @@ NOTE: This isn't a new build environment, it is a wrapper for Razzle
 
 Added Features:
 	- Building Specific Directories
-	- Switching types CHK and FRE
+	- Switching types CHK and FRE (NEED TO TEST BUILDING AFTER CHANGE)
 	- Switching Retail and Prerelease (also updates build/postbuild paths)
 
 Fixes and tweaks: 
