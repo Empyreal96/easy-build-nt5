@@ -5,6 +5,9 @@ There will be updates over time, I need feedback and suggestions to make improve
 
 NOTE: This isn't a new build environment, it is a wrapper for Razzle
 
+Join the Telegram group!
+http://t.me/joinchat/TTfPwUpDx4b0ywMFLSjKyg
+
 ![](https://github.com/Empyreal96/easy-build-nt5/raw/main/easy-build.png)
 
 
