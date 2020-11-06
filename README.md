@@ -43,15 +43,23 @@ Fixes and tweaks:
 
 
 
-- **easy-build.cmd:**
+**easy-build.cmd:**
 
-  *What is it exactly?*
-
-  - *It is an easy to use 'frontend' to the NT5 Razzle Build Environment and 4chan/OpenXP Patches*
+- *What is it exactly? **
+  - *It is an easy to use 'frontend' to the NT5 Razzle Build Environment and 4chan/OpenXP Patches* 
 
   - *Easy to use (I hope)*
+- **How to use?**
+- Just copy to the same folder as 'razzle.cmd', double-click, it will ask for UAC, detect if user is 32 or 64 bit, then loads razzle + easy-build
 
-- How to use?
-
-    Just copy to the same folder as 'razzle.cmd', double-click, it will ask for UAC, detect if user is 32 or 64 bit, then loads razzle + easy-build
-
+- **What can it do?**
+  - One-Click for Build, Postbuild, and ISO creation
+  - Automatically detect Host Architecture and load the required razzle
+  - Easy switching between:
+    - Prerelease and Retail
+    - Free and Checked
+    - Timebomb Expiration Days
+  - Easy access build Error Logs
+  - Display Build Environment Info
+  - Provide Links to 'Official' Build Guide
+  - Checks in place to prevent building without missing files
