@@ -13,6 +13,8 @@ NOTE: This isn't a new build environment, it is a wrapper for Razzle
 **What's new?**
 
 Added Features:
+	- Added option to set Timebomb.cmd expiration date.
+	- Files that need modifying will now be modified by 'replace.vbs' VBScript which is created by Easy-Build and placed in razzle tool path.
 	- Building Specific Directories
 	- Switching types CHK and FRE (NEED TO TEST BUILDING AFTER CHANGE)
 	- Switching Retail and Prerelease (also updates build/postbuild paths)
@@ -51,5 +53,5 @@ Fixes and tweaks:
 
 - How to use?
 
-  Just copy to the same folder as 'razzle.cmd', double-click, it will ask for UAC, detect if user is 32 or 64 bit, then loads razzle + easy-build
+    Just copy to the same folder as 'razzle.cmd', double-click, it will ask for UAC, detect if user is 32 or 64 bit, then loads razzle + easy-build
 

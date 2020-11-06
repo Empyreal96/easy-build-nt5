@@ -82,6 +82,7 @@ REM This is a check to see if 'first run' has been completed, the .txt file
 REM is created after the first run dialogue
 REM
 if exist %~dp0\easy-build-check.txt (goto easyinit) else (goto easyfirstrun)
+
 REM
 REM This is the 'first run' dialogue, self explanitory. Creates the 'first run' complete
 REM txt after this windows, It also checks for said .txt upon loading the dialogue and skips
@@ -111,6 +112,7 @@ REM this echo to file is used to tell if Easy-Build has done it's 'first run'
 echo EASY_BUILD_FIRST_RUN=1 > %~dp0\easy-build-check.txt
 goto easyinit
 :easyinit
+
 REM
 REM This piece tells the script what Build Number to show depending on the name of NT source dir
 REM It also checks to see if NTROOT has been set as to tell if it needs to start Razzle or not.
@@ -118,6 +120,7 @@ REM
 if "%_NTROOT%" == "\srv03rtm" set _Build_No=3790
 if "%_NTROOT%" == "\XPSP1" set _Build_No=2600
 if "%_NTROOT%" == "" (goto RazzleFirst) else (goto mainmenu)
+
 REM
 REM =================================================================================
 REM Feel free to modify this script, I just made it to make life lazy for those
@@ -186,6 +189,7 @@ REM I have left the 'var' command in because I use it to see what variables are 
 REM
 :mainmenu
 mode con:cols=95 lines=32
+call :replacetextvbs
 REM set "prerel_read="
 REM for /F "skip=13 delims=" %%i in (%~d0%_NTROOT%\base\prerelease.inc) do if not defined prerel_read set "prerel_read=%%i"
 REM if "%prerel_read%" == "PRERELEASE=0" (set prerel_info=Retail) else (set prerel_info=Prerelease)
@@ -263,6 +267,7 @@ REM
 cd /d %~d0%_NTROOT%
 timeout /t 3 /nobreak
 cmd /c build -bcZP
+echo.
 pause
 goto mainmenu
 REM 
@@ -278,6 +283,7 @@ REM
 cd /d %~d0%_NTROOT%
 timeout /t 3 /nobreak
 cmd /c build -bZP
+echo.
 pause
 goto mainmenu
 REM
@@ -294,16 +300,16 @@ REM We will be setting some of the aliases used by razzle as a quick go-to for m
 REM 
 cd %~dp0
 cd ..
-echo.
 cls
-echo.
+echo ----------------------------------------------------------------------
 echo This section we can clean build certain components of the source
 echo So if you want to rebuild Notepad you would type:
 echo.
 echo shell\osshell\accesory\notepad
-echo.
+echo ----------------------------------------------------------------------
 echo.
 echo Type full path to folder or type back to return:
+echo.
 set /p userinput=:
 if "%userinput%"=="back" goto mainmenu
 cd %userinput%
@@ -320,6 +326,7 @@ REM Not much to say here, it just requires the switch for running oscdimg from r
 REM
 :MakeISO
 cls
+echo --------------------------------------------------------------------
 echo Please enter one of the SKUs from below to build your ISO (e.g pro)
 echo Type: Key  to view needed Product Key
 echo --------------------------------------------------------------------
@@ -406,24 +413,28 @@ goto mainmenu
 
 :BuildOptions
 cls
-echo.
+echo ----------------------------------------------------------------------
 echo This section we can use to modify various parts of the build process
 echo for example changing Release type, Build type etc
 echo To switch, type the option after the Value:
+echo ----------------------------------------------------------------------
 echo.
 echo Release: prerelease - retail
 echo Build Type: fre - chk
+echo Timebomb Fuse: days
 REM echo To Change Build Dir: build-out
 REM echo To Change Postbuild Dir: post-out
 echo.
 echo I will slowly add more here over time
-echo.
+echo ----------------------------------------------------------------------
 echo back) Return
+echo.
 set /p bldopt=:
 if /i "%bldopt%"=="prerelease" goto PreBuildset
 if /i "%bldopt%"=="retail" goto RTMBuildset
 if /i "%bldopt%"=="fre" goto buildfre
 if /i "%bldopt%"=="chk" goto buildchk
+if /i "%bldopt%"=="days" goto Timebomb
 if /i "%bldopt%"=="back" goto mainmenu
 goto BuildOptions
 
@@ -520,5 +531,67 @@ set BINPLACE_LOG=%_NTDRIVE%\binaries.x86%_BuildType%\build_logs\binplace.log
 goto BuildOptions
 REM :buildoutputdir
 REM :postbuildoutdir
+
+:Timebomb
+echo.
+echo Backing up timebomb.cmd
+if not exist "%~d0%_NTROOT%\tools\postbuildscripts\timebomb.orig" (copy "%~d0%_NTROOT%\tools\postbuildscripts\timebomb.cmd" "%~d0%_NTROOT%\tools\postbuildscripts\timebomb.orig") else (echo Original timebomb.cmd backup exists)
+REM if exist "%~d0%_NTROOT%\tools\postbuildscripts\timebomb.cmd" del tools\postbuildscripts\timebomb.cmd
+echo.
+echo Enter Days For Timebomb:
+echo (0, 5, 15, 30, 60, 90, 120, 150, 180, 240, 360, 444)
+set /p tbombfuse=:
+echo Setting Timebomb to %tbombfuse% Days
+echo.
+replace.vbs tools\postbuildscripts\timebomb.cmd "set DAYS=*" "set DAYS=%tbombfuse%"
+pause
+goto BuildOptions
+REM 
+REM
+REM
+	pause
+	goto BuildOptions
+	
+	
+:replacetextvbs
+if exist .\replace.vbs del .\replace.vbs
+
+REM
+REM This VBScript will be used by Easy-Build to modify plain text files
+REM
+echo. >> .\replace.vbs 
+echo 'This script should be placed in a folder specified in your system's PATH variable. >> .\replace.vbs 
+echo. >> .\replace.vbs 
+echo 'Usage (WScript): >> .\replace.vbs 
+echo 'ReplaceText FileName OldText NewText [/I] >> .\replace.vbs 
+echo. >> .\replace.vbs 
+echo ' /I (optional) - Text matching is not case sensitive >> .\replace.vbs 
+echo. >> .\replace.vbs 
+echo. >> .\replace.vbs 
+echo Set oArgs = WScript.Arguments >> .\replace.vbs 
+echo. >> .\replace.vbs 
+echo intCaseSensitive = 0 >> .\replace.vbs 
+echo For i = 3 to oArgs.Count-1 >> .\replace.vbs 
+echo 	If UCase(oArgs(i)) = "/I" Then intCaseSensitive = 1 >> .\replace.vbs 
+echo Next >> .\replace.vbs 
+echo. >> .\replace.vbs 
+echo Set oFSO = CreateObject("Scripting.FileSystemObject") >> .\replace.vbs 
+echo. >> .\replace.vbs 
+echo If Not oFSO.FileExists(oArgs(0)) Then >> .\replace.vbs 
+echo 	WScript.Echo "Specified file does not exist." >> .\replace.vbs 
+echo Else >> .\replace.vbs 
+echo 	Set oFile = oFSO.OpenTextFile(oArgs(0), 1) >> .\replace.vbs 
+echo 	strText = oFile.ReadAll >> .\replace.vbs 
+echo 	oFile.Close >> .\replace.vbs 
+echo. >> .\replace.vbs 
+echo 	strText = Replace(strText, oArgs(1), oArgs(2), 1, -1, intCaseSensitive) >> .\replace.vbs 
+echo. >> .\replace.vbs 
+echo 	Set oFile = oFSO.OpenTextFile(oArgs(0), 2) >> .\replace.vbs 
+echo 	oFile.WriteLine strText >> .\replace.vbs 
+echo 	oFile.Close >> .\replace.vbs 
+echo End If >> .\replace.vbs 
+echo. >> .\replace.vbs 
+
+
 
 :EOF
