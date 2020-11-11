@@ -2,7 +2,7 @@
 Just a small script I made and use when building NT5 for a quick lazy mans build. Adapted so others can use.
 
 There will be updates over time, I need feedback and suggestions to make improvements
-
+THIS IS IN TESTING, YOU MAY ENCOUNTER ERRORS
 NOTE: This isn't a new build environment, it is a wrapper for Razzle
 
 Join the Telegram group!
