@@ -5,6 +5,7 @@ echo Loading..
 REM
 REM
 if NOT exist %~dp0\TEMP\7za.exe goto easyassetextract
+if NOT exist %~dp0\prebuild.cmd goto attribchange
 REM if NOT exist %~dp0\prebuild.cmd goto easypatcherinit
 REM
 REM
