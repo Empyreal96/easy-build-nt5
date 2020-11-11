@@ -13,7 +13,19 @@ http://t.me/joinchat/TTfPwUpDx4b0ywMFLSjKyg
 
 
 ```
-**What's new?**
+** What's New This Update?**
+
+- Added Easy-Patcher GUI Source patch downloader as well as its source
+- Added prebuild, File attribute checks
+- Updated log options to open warning logs aswell
+- Replaced Postbuild's timeout when complete, to a pause.
+- Fixed a few typos
+```
+
+
+
+```
+**Last Update:**
 
 Added Features:
 	- Added option to set Timebomb.cmd expiration date.
@@ -31,20 +43,6 @@ Fixes and tweaks:
 
 
 ```
-
-
-
-```
-**Previous changes**
-	- Added checks so that the script cannot run without razzle present
-	- Added checks so user cannot postbuild or make ISO with files missing (missing files not provided)
-	- Added 'First Run' screen (it will only show on very first load)
-	- Made sure we can load 64 bit env successfully
-	- Added an 'info' page 
-	- All options should work now
-```
-
-
 
 **easy-build.cmd:**
 

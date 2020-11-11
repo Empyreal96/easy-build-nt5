@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>NOTE: This Patcher is in TESTING and may be unstable!
+
+Welcome to Easy-Patcher!
+
+Here you can View, Download and Apply Community Patches
+for the Windows 2003 SP0 Source Code. I will update accordingly 
+with any updates released to Patches here.
+
+If you have suggestions or feedback for Easy-Patcher then let me know on Github,
+
+Any help, support or ideas regarding the Source, visit 4chan /g/ /wxp/ board.</value>
+  </data>
+  <data name="richTextBox2.Text" xml:space="preserve">
+    <value>Windows 2003 SP0 Prepatched Source files:
+Requirement Level: HIGHLY RECOMMENDED           Latest version: v10
+
+These prepatched source files are to allow a complete build of the partial source available,
+Highlighted features include:
+- Allowing build on x64 Hosts (various changes)
+- Updated Test and Root Certificates expire October 2021 (see tools/openssl.txt)
+- Patched 16 bit files and executables for 64 bit build machines, Windows 7 and up
+- MIDL/MIDLC taken from Win 2003 SP1 DDK to fix olepro32.dll errors
+- DirectUI/DUser fixes to allow building duser
+- Removed missing calls from Postbuild process due to missing files
+- Some fixes to allow building for amd64
+- Added prepatch.cmd to set up keys, fix file attributes and tweaks
+- Added oscdimg.cmd to allow generation of ISO image
+
+For further patch notes and information see:  https://rentry.co/build-win2k3
+This Patch is provided by the 4chan /g/ Community and with permission to host
+and download with Easy-Build/Easy-Patcher.</value>
+  </data>
+  <data name="richTextBox3.Text" xml:space="preserve">
+    <value>------------------------------------------------------------------------------------------------
+                 THIS PATCH IS EXPERIMENTAL AND MAY BE UNSTABLE
+------------------------------------------------------------------------------------------------
+Winlogon Source Port from Windows 2000 for Windows 2003:
+Requirement Level: OPTIONAL/TESTING            Version: 3b
+
+To view a list of what's been ported, read the /g/ archived thread here:
+https://archive.rebeccablacktech.com/g/thread/78500072/#78504881
+
+Known Issues: 
+Many.. you may encounter delays with start-up and login due to missing 
+functions in the ported Winlogon, warnings and errors upon build (especially
+on AMD64 targeted builds.
+
+Read Me from patch:
+If you change build arch from x86 to amd64 or vice-versa, make sure to edit the two 
+processorArchitecture fields inside: 
+
+"%NTROOT%\ds\security\gina\winlogon\windowslogon_default.manifest"
+
+Group-policy changes hopefully shouldn't be needed as of v2b, thanks to 
+wlx.cSetupPasswordPolicy function add
+
+If building for amd64 make sure to bcz inside "ds\security\gina\" first,
+and afterwards do an additional bcz inside winlogon, to ensure that the
+msgina and userenv projects are built before winlogon is (as we need to
+update lib files for those projects, to make sure winlogon uses updated
+SP1 import ordinal numbers)
+
+If copying into an existing SP1 build only copy the winlogon.exe -
+msgina and userenv aren't updated to SP1 level, only the ordinals are.
+it should be fine to use them inside our own custom amd64 builds though.
+
+
+This patch is provided by the 4chan Community with permission to host 
+and download with Easy-Build/Easy-Patcher. </value>
+  </data>
+  <data name="richTextBox4.Text" xml:space="preserve">
+    <value>Missing RTM Files for Postbuilding:
+Requirement Level: HIGHLY RECOMMENDED      Latest Version: v8
+
+These are a list of prebuilt files, extracted from different ISO SKUs for 2003 and XP.
+To use these files, copy the contents of the archive to your 'Postbuild' directory:
+
+e.g D:\binaries.x86fre
+
+NOTE: DON'T REPLACE DUSER.DLL IF YOU MANUALLY INSTALL THIS PATCH.
+As these are only for x86 fre, you may need to extract any x64 and/or chk files from 
+a retail/same(ish) build ISO or CD, you can use the 'missing.cmd' found in 'tools/'
+
+If you have chosen to use the Winlogon200X source, DON'T replace the winlogon.exe and winlogon.pdb
+
+This Patch is provided by the 4chan /g/ Community and with permission to host
+and download with Easy-Build/Easy-Patcher.</value>
+  </data>
+</root>
