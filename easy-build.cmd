@@ -3,18 +3,22 @@ color 03
 Title Easy-Build Environment For Razzle and OpenXP Patches
 echo Loading..
 REM
-REM
-if NOT exist %~dp0\TEMP\7za.exe goto easyassetextract
-if NOT exist %~dp0\prebuild.cmd goto attribchange
 REM if NOT exist %~dp0\prebuild.cmd goto easypatcherinit
 REM
 REM
 REM Below is just current internal build version and 4chan patches
-set "EASY_PATCHER_VERSION=0.1.0"
-set "EASY_BUILD_RELEASE=v0.1.10"
+set "EASY_PATCHER_VERSION=0.2.0"
+set "EASY_BUILD_RELEASE=v0.1.13"
 set "CHAN_PREPATCHED_LATEST=win2003_prepatched_v10"
 set "CHAN_WINLOGON_VERSION=winlogon200X_v3b"
 set "CHAN_MISSING_FILES_VER=2k3-missing-x86fre-v8"
+REM
+REM Here is the 'system' to check for requirements. I say system, its just a bunch of if statements 
+REM
+if NOT exist %~dp0\razzle.cmd goto WhereisRaz
+if NOT exist %~dp0\TEMP\7za.exe goto easyassetextract
+if NOT exist %~dp0\prebuild.cmd goto attribchange
+
 REM
 REM UAC elevation
 REM I found this method to elevate the script to admin here: https://stackoverflow.com/a/12264592
