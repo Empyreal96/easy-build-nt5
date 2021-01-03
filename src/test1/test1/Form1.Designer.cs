@@ -152,6 +152,7 @@
             this.richTextBox2.Size = new System.Drawing.Size(608, 296);
             this.richTextBox2.TabIndex = 0;
             this.richTextBox2.Text = resources.GetString("richTextBox2.Text");
+            this.richTextBox2.TextChanged += new System.EventHandler(this.richTextBox2_TextChanged);
             // 
             // tabPage2
             // 
@@ -209,7 +210,7 @@
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(776, 314);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Missing";
+            this.tabPage3.Text = "Missing x86";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // button1

@@ -49,7 +49,7 @@ namespace test1
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted1);
 
                 // Starts the download
-                client.DownloadFileAsync(new Uri("https://www.dropbox.com/s/di55vjdd3uiyagt/PATCHER_FILE_1.patch?dl=1"), "win2k3_prepatched_v10.zip");
+                client.DownloadFileAsync(new Uri("https://www.dropbox.com/s/jlg9afgdcier3z2/PATCHER_FILE_1.patch?dl=1"), "win2k3_prepatched_v10.zip");
                 
                     
 
@@ -91,7 +91,7 @@ namespace test1
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
 
                 // Starts the download
-                client.DownloadFileAsync(new Uri("https://www.dropbox.com/s/di55vjdd3uiyagt/PATCHER_FILE_1.patch?dl=1"), savepre.FileName);
+                client.DownloadFileAsync(new Uri("https://www.dropbox.com/s/jlg9afgdcier3z2/PATCHER_FILE_1.patch?dl=1"), savepre.FileName);
                 // Save document
 
                 string filename = savepre.FileName;
@@ -133,7 +133,7 @@ namespace test1
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
 
-                client.DownloadFileAsync(new Uri("https://www.dropbox.com/s/xl6zuz53hiqm890/PATCHER_FILE_3.patch?dl=1"), savewlog.FileName);
+                client.DownloadFileAsync(new Uri("https://www.dropbox.com/s/2tp1p2uvt6a258z/PATCHER_FILE_3.patch?dl=1"), savewlog.FileName);
 
                 string filename = savewlog.FileName;
                 buttonWinlogDL.Text = "Download In Progress";
@@ -150,7 +150,7 @@ namespace test1
         {
             SaveFileDialog savemiss = new SaveFileDialog();
             savemiss.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            savemiss.FileName = "2k3-missing-x86fre-v8"; 
+            savemiss.FileName = "win2003_x86-missing-binaries_v2"; 
             savemiss.DefaultExt = ".7z";
             savemiss.Filter = "7z Archive (.7z)|*.7z"; 
 
@@ -163,7 +163,7 @@ namespace test1
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
 
-                client.DownloadFileAsync(new Uri("https://www.dropbox.com/s/fp2qpfgdpdpuyv0/PATCHER_FILE_2.patch?dl=1"), savemiss.FileName);
+                client.DownloadFileAsync(new Uri("https://www.dropbox.com/s/syctbnu0n5u2amx/PATCHER_FILE_2.patch?dl=1"), savemiss.FileName);
 
                 string filename = savemiss.FileName;
                 buttonWinlogDL.Text = "Download In Progress";
@@ -182,7 +182,7 @@ namespace test1
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted2);
 
                 // Starts the download
-                client.DownloadFileAsync(new Uri("https://www.dropbox.com/s/xl6zuz53hiqm890/PATCHER_FILE_3.patch?dl=1"), "Winlogon200X_v3b.zip");
+                client.DownloadFileAsync(new Uri("https://www.dropbox.com/s/2tp1p2uvt6a258z/PATCHER_FILE_3.patch?dl=1"), "Winlogon200X_v3b.zip");
 
 
 
@@ -214,7 +214,7 @@ namespace test1
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted3);
 
             // Starts the download
-            client.DownloadFileAsync(new Uri("https://www.dropbox.com/s/fp2qpfgdpdpuyv0/PATCHER_FILE_2.patch?dl=1"), "2k3-missing-x86fre-v8.7z");
+            client.DownloadFileAsync(new Uri("https://www.dropbox.com/s/syctbnu0n5u2amx/PATCHER_FILE_2.patch?dl=1"), "win2003_x86-missing-binaries_v2.7z");
 
 
 
@@ -235,7 +235,12 @@ namespace test1
 
 
     }
-}
+
+        private void richTextBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
     }
     
 

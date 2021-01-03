@@ -7,3 +7,12 @@ D:\New folder\test1\test1\obj\Debug\test1.csproj.GenerateResource.cache
 D:\New folder\test1\test1\obj\Debug\test1.csproj.CoreCompileInputs.cache
 D:\New folder\test1\test1\obj\Debug\Easy-Patcher.exe
 D:\New folder\test1\test1\obj\Debug\Easy-Patcher.pdb
+D:\Repos\easy-build-nt5\src\test1\test1\bin\Debug\Easy-Patcher.exe
+D:\Repos\easy-build-nt5\src\test1\test1\bin\Debug\Easy-Patcher.pdb
+D:\Repos\easy-build-nt5\src\test1\test1\obj\Debug\test1.csprojAssemblyReference.cache
+D:\Repos\easy-build-nt5\src\test1\test1\obj\Debug\test1.Form1.resources
+D:\Repos\easy-build-nt5\src\test1\test1\obj\Debug\test1.Properties.Resources.resources
+D:\Repos\easy-build-nt5\src\test1\test1\obj\Debug\test1.csproj.GenerateResource.cache
+D:\Repos\easy-build-nt5\src\test1\test1\obj\Debug\test1.csproj.CoreCompileInputs.cache
+D:\Repos\easy-build-nt5\src\test1\test1\obj\Debug\Easy-Patcher.exe
+D:\Repos\easy-build-nt5\src\test1\test1\obj\Debug\Easy-Patcher.pdb

@@ -132,10 +132,11 @@ Any help, support or ideas regarding the Source, visit 4chan /g/ /wxp/ board.</v
   </data>
   <data name="richTextBox2.Text" xml:space="preserve">
     <value>Windows 2003 SP0 Prepatched Source files:
-Requirement Level: HIGHLY RECOMMENDED           Latest version: v10
+Requirement Level: HIGHLY RECOMMENDED           Latest version: v10a
 
 These prepatched source files are to allow a complete build of the partial source available,
 Highlighted features include:
+- Added fixed systime/exinit files with updated prebuild
 - Allowing build on x64 Hosts (various changes)
 - Updated Test and Root Certificates expire October 2021 (see tools/openssl.txt)
 - Patched 16 bit files and executables for 64 bit build machines, Windows 7 and up
@@ -155,7 +156,7 @@ and download with Easy-Build/Easy-Patcher.</value>
                  THIS PATCH IS EXPERIMENTAL AND MAY BE UNSTABLE
 ------------------------------------------------------------------------------------------------
 Winlogon Source Port from Windows 2000 for Windows 2003:
-Requirement Level: OPTIONAL/TESTING            Version: 3b
+Requirement Level: OPTIONAL/TESTING            Version: 3c
 
 To view a list of what's been ported, read the /g/ archived thread here:
 https://archive.rebeccablacktech.com/g/thread/78500072/#78504881
@@ -189,21 +190,19 @@ This patch is provided by the 4chan Community with permission to host
 and download with Easy-Build/Easy-Patcher. </value>
   </data>
   <data name="richTextBox4.Text" xml:space="preserve">
-    <value>Missing RTM Files for Postbuilding:
-Requirement Level: HIGHLY RECOMMENDED      Latest Version: v8
+    <value>Missing x86 RTM Files for Postbuilding:
+Requirement Level: HIGHLY RECOMMENDED   
+Latest Version: win2003_x86-missing-binaries_v2
 
 These are a list of prebuilt files, extracted from different ISO SKUs for 2003 and XP.
 To use these files, copy the contents of the archive to your 'Postbuild' directory:
 
 e.g D:\binaries.x86fre
 
-NOTE: DON'T REPLACE DUSER.DLL IF YOU MANUALLY INSTALL THIS PATCH.
-As these are only for x86 fre, you may need to extract any x64 and/or chk files from 
-a retail/same(ish) build ISO or CD, you can use the 'missing.cmd' found in 'tools/'
+NOTE: DON'T REPLACE ANY FILES!
 
 If you have chosen to use the Winlogon200X source, DON'T replace the winlogon.exe and winlogon.pdb
 
-This Patch is provided by the 4chan /g/ Community and with permission to host
-and download with Easy-Build/Easy-Patcher.</value>
+This Patch is provided by the anons at the  /g/ Community</value>
   </data>
 </root>
