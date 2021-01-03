@@ -45,3 +45,6 @@ http://t.me/joinchat/TTfPwUpDx4b0ywMFLSjKyg
   - Display Build Environment Info
   - Provide Links to 'Official' Build Guide
   - Checks in place to prevent building without missing files
+  
+  
+  **Note: This script uses 7za.exe and 7za.dll (encoded in/extracted from base64) from "https://www.7-zip.org/download.html" The source can be found there.**
