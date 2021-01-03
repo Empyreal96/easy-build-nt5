@@ -17,34 +17,13 @@ http://t.me/joinchat/TTfPwUpDx4b0ywMFLSjKyg
 ```
 ** What's New This Update?**
 
-- Added Easy-Patcher GUI Source patch downloader as well as its source
-- Added prebuild, File attribute checks
-- Updated log options to open warning logs aswell
-- Replaced Postbuild's timeout when complete, to a pause.
-- Fixed a few typos
+- Updated Easy-Patcher to fetch latest patches
+- Added visual check to tell user that Git source version detected
+- Fixed Open warning log options so build/postbuild.wrn open 
+- Updated MissingFiles.cmd which deals with the missing files patch
 ```
 
 
-
-```
-**Last Update:**
-
-Added Features:
-	- Added option to set Timebomb.cmd expiration date.
-	- Files that need modifying will now be modified by 'replace.vbs' VBScript which is created by Easy-Build and placed in razzle tool path.
-	- Building Specific Directories
-	- Switching types CHK and FRE (NEED TO TEST BUILDING AFTER CHANGE)
-	- Switching Retail and Prerelease (also updates build/postbuild paths)
-
-Fixes and tweaks: 
-	- Replaced some 'timeouts' with a pause.
-	- Replaced some vars to avoid issues with added fearures this update.
-	- Input from user is case insensitive now to avoid issues.
-	- Display latest 4chan patch.
-	- UI improvements
-
-
-```
 
 **easy-build.cmd:**
 
