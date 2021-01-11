@@ -38,6 +38,8 @@ http://t.me/joinchat/TTfPwUpDx4b0ywMFLSjKyg
 - Just copy to the same folder as 'razzle.cmd', double-click, it will ask for UAC, detect if user is 32 or 64 bit, then loads razzle + easy-build
 
 - Run 'easy-build.cmd chk' from a shortcut to launch Debug builds
+
+- Run 'easy-build64.cmd' to start the AMD64 build
   
 - **What can it do?**
   
