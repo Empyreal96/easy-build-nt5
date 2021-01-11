@@ -1,17 +1,18 @@
 @echo off
 color 03
 Title Easy-Build Environment For Razzle and OpenXP Patches
-echo Loading..
+echo Loading (AMD64 BUILD)..
 REM
 REM if NOT exist %~dp0\prebuild.cmd goto easypatcherinit
 REM
 REM
 REM Below is just current internal build version and 4chan patches
 set "EASY_PATCHER_VERSION=0.2.2"
-set "EASY_BUILD_RELEASE=v0.1.17"
+set "EASY_BUILD_AMD64_RELEASE=v0.0.1"
 set "CHAN_PREPATCHED_LATEST=win2003_prepatched_v10a"
 set "CHAN_WINLOGON_VERSION=winlogon200X_v3c"
 set "CHAN_MISSING_FILES_VER=win2003_x86-missing-binaries_v2"
+set "AMD64_MISSING_FILES=AMD64_TEST_1.7z"
 REM
 REM Here is the 'system' to check for requirements. I say system, its just a bunch of if statements 
 REM
@@ -106,7 +107,7 @@ REM
 REM This is a check to see if 'first run' has been completed, the .txt file 
 REM is created after the first run dialogue
 REM
-if exist %~dp0\easy-build-check.txt (goto easyinit) else (goto easyfirstrun)
+if exist %~dp0\easy-build-check64.txt (goto easyinit) else (goto easyfirstrun)
 
 REM
 REM This is the 'first run' dialogue, self explanitory. Creates the 'first run' complete
@@ -114,16 +115,30 @@ REM txt after this windows, It also checks for said .txt upon loading the dialog
 REM this section if it is found.
 REM
 :easyfirstrun
-if exist %~dp0\easy-build-check.txt (goto easyinit)
+REM EXTRACT AND SHOW AMD64 README
+REM
+if exist %~dp0\easy-build-check64.txt (goto easyinit)
+(
+echo Iw0KIyBUaGlzIGlzIGEgcmVhZG1lIG9uIHVzaW5nIEVhc3ktQnVpbGQ2NCBhbmQgYnVpbGRpbmcgQU1ENjQNCiMgUGxlYXNlIGRvIHJlYWQgaW4gZnVsbC4NCiMNCg0KIyBEb3dubG9hZCB0aGUgQU1ENjQgcGF0Y2hlcyBhbmQgbWlzc2luZyBmaWxlcyBoZXJlOg0KaHR0cHM6Ly9tZWdhLm56L2ZpbGUvcTFaeHpTYUMjQWU0dktRNkV2ZUk5Vmx4RWM1dDRUT2s0SXlnaHNaaWJ2UWNJRTg3TGFsbw0KKEV2ZW50dWFsbHkgSSB3aWxsIGFkZCB0aGlzIHRvIEVhc3ktUGF0Y2hlcikNCg0KIyBDdXJyZW50bHkgdGhlIHN0YXRlIG9mIEFNRDY0IGluIHRoZSBjb2RlYmFzZSwgaXMgYnVnZ3kgYXQgYmVzdC4NCiMNCiMgVGhlcmUgYXJlIGEgZmV3IHRoaW5ncyB5b3UgbmVlZCB0byBrZWVwIGluIG1pbmQgKFRoYXQgd2Uga25vdyBvZiBzbyBmYXIpOg0KIw0KLSBPbmx5IEFNRCBDUFVzIHdpdGggdGhlICdBdXRoZW50aWNBTUQnIHNpZ25hdHVyZSB3aWxsIGJvb3QgdGhlc2UgaW4gSHlwZXItViwgVk1XYXJlIGFuZCBWaXJ0dWFsQm94Lg0KLSBRRU1VIGlzIGNhcGFibGUgb2YgRW11bGF0aW5nIGFuIEFNRCBDUFUgdGhhdCBzYXRpc2ZpZXMgV2luZG93J3MgQU1EIGNoZWNrIChJbnRlbCBVc2VycyB3aWxsIGhhdmUgdG8gdXNlIHRoaXMpDQotIFNvbWUgJ09sZGVyJyBJbnRlbCBDUFVzIG1pZ2h0IGJvb3QgdGhlc2UgaW4gYSBWTSBvdGhlciB0aGFuIFFFTVUsIHRoaXMgaXMgbm90IHByb3Blcmx5IG9ic2VydmVkIHlldC4NCg0KLSBBTUQ2NCBBc3NlbWJhbGllcyBmb3IgR0RJUGx1cyBhcmUgbWlzc2luZyBmcm9tIG91ciBjb2RlLCBmb3Igbm93IHdlIHVzZSBBU01TMDEuY2FiIGFuZCBISVZFU1hTLmluZiBmcm9tIDEwNjkgQU1ENjQgSVNPcw0KLSBUaGUgQU1ENjQgS2VybmVsIGhhcyB2ZXJ5IGVhcmx5IHN0YWdlcy9idWdneSBNZW1vcnkgTWFuYWdlbWVudC4NCi0gVGhlIFdPVzMyIExheWVyIGFuZCBTeFMgaXMgaW4gYSBob3JyaWJsZSBzdGF0ZS4NCi0gS2VybmVsIERlYnVnZ2luZyBpcyBhIG1lc3MgdG9vLCBkdXJpbmcgdGVzdGluZyBvciB0aGUgQU1ENjQgcGF0Y2hlcyB3ZSBoaXQgc2V2ZXJhbCBtaXNzZWQgQVNTRVJUUyBhbmQgb3RoZXIgaXNzdWVzLg0KLSBTb21lIERyaXZlcnMgZG9uJ3QgZXhpc3QgZm9yIEFNRDY0LCBhbmQgbW9zdCBhcmVuJ3QgYXZhaWxhYmxlIGluIHRoZSBjb2RlYmFzZS4uIFdoZW4gdGVzdGluZyB1c2UgSURFIGZvciB0aGUgVkhEDQoNCi0gTWFueSBtaXNzaW5nIGV4cG9ydHMgYXJlIG1pc3NpbmcgZnJvbSB2YXJpb3VzIHN5c3RlbSBmaWxlcyAoTVNWQ1A2MC5kbGwsIE1TVkNSVC5kbGwgYW5kIG90aGVycykNCi0gTWFueSBBcHBsaWNhdGlvbnMgYXJlIG1pc3NpbmcgZnJvbSB0aGUgQU1ENjQgQnVpbGRzLCB0aGlzIGNvdWxkIGJlIG9uZSBvZiBhIGZldyB0aGluZ3MsIHBvc3RidWlsZC9iaW5wbGFjZSBpc3N1ZXMsDQpzb3VyY2UgaXNzdWVzIG9yIG1heWJlIGp1c3Qgbm90IGltcGxpbWVudGVkIHlldC4uIFRoaXMgbmVlZHMgZmluZGluZyBvdXQuDQoNCi0gV2hlbiB0ZXN0aW5nIHRoZSBJU09zIGluIGEgVk0gKEkgdXNlIGFuIEFNRCBBOCBhcyB0aGUgVk0gSG9zdCBtYWNoaW5lKSB0aGUgVk0gd291bGQgZmFpbCB0byBib290IGFuZCByZWFjaCBhICdib290bG9vcCcsDQp0aGlzIHdhcyBmaXhlZCB3aXRoIGEgJ0Z1bGwgcG93ZXIgZG93biwgYW5kIHBvd2VyIHVwJyBvZiB0aGUgVk0uLiBUaGlzIGFnYWluIGNvdWxkIGJlIGFnYWluIG9uZSBvZiBtYW55IHRoaW5ncywgSEFMLCBBQ1BJIGV0Yw0KDQoNCkFsbCBpbiBhbGwgaXQncyBhIG1lc3MsIGJ1dCBwcm9ncmVzcyBlaXRoZXIgd2F5IQ0KDQojDQojIFNldHRpbmcgdXAgdGhlIHBhdGNoZXMgYW5kIHdoYXQgbXVzdCBiZSBkb25lIHRvIGdldCBBTTY0IGJ1aWxkcyB0byB3b3JrLg0KIyBEcml2ZSBXOiB3aWxsIGJlIHVzZWQgYXMgdGhlIEVYQU1QTEUNCiMNCiMgSSBhbSBwcmVzdW1pbmcgeW91IGFscmVhZHkgaGF2ZSB0aGUgU291cmNlIHdpdGggdGhlIHYxMGEgb2YgdGhlIHByZXBhdGNoZWQgZmlsZXMsIHRoZSAnbWlzc2luZycgeDg2IGZpbGVzLCBhbmQgV2lubG9nb24gc291cmNlDQojIFVzZSBFYXN5LUJ1aWxkJ3MgRWFzeS1QYXRjaGVyIHRvIGRvd25sb2FkIHRoZXNlIChET04nVCBBUFBMWSBUSEVTRSBGUk9NIEVBU1ktQlVJTEQ2NCwgVVNFIFRIRSAnTk9STUFMJyBFQVNZLUJVSUxEJ1MgUEFUQ0hFUikNCiMNCiMgTWFrZSBzdXJlIHlvdSBoYXZlIGRvd25sb2FkZWQgYW5kIGV4dHJhY3RlZCB0aGUgQU1ENjQgcGF0Y2hlcyB0byBhIHNlcGVyYXRlIGZvbGRlci4NCiMgJ0FNRDY0X2N1cnJlbnQudHh0JyBoYXMgdGhlIG1hbnVhbCBidWlsZCBndWlkZSBhbmQgd2hlcmUgdG8gcGxhY2UgTWlzc2luZyBmaWxlcyBldGMuIFBsZWFzZSBSZWFkIHRoYXQgaW4gZnVsbC4NCiMgVGhpcyBpcyBhIGJyaWVmIG92ZXJ2aWV3LCBNb3N0IG9mIHRoZSB4ODYgc2lkZSBpcyBkb25lIHdpdGggJ25vcm1hbCcgRWFzeS1CdWlsZA0KDQotIFJlcGxhY2UgZXZlcnl0aGluZyBmcm9tICJBTUQ2NF9URVNUXzEuN3pcc3J2MDNydG1cIiBpbnRvICJXOlxzcnYwM3J0bVwiDQotIFByZWJ1aWxkIHg4Ng0KLSBCdWlsZCB4ODYNCi0gQ29weSBNaXNzaW5nIGZpbGVzDQotIFBvc3RidWlsZCB4ODYuDQotIExvYWQgQU1ENjQgYnVpbGQNCi0gUHJlYnVpbGQgQU1ENjQNCi0gQnVpbGQgQU1ENjQNCi0gQ29weSBNaXNzaW5nIEZpbGVzDQotIFJlcGxhY2UgUmVxdWlyZWQgZmlsZXMgZnJvbSAnTVVTVCBSRVBMQUNFIEJFRk9SRSBQT1NUQlVJTEQnDQotIFBvc3RidWlsZCBBTUQ2NA0KLSBSZXBsYWNlIGZpbGVzIGZyb20gJ01VU1QgUkVQTEFDRSBCRUZPUkUgT1NDRElNRycNCi0gUnVuIG9zY2RpbWcgcHJvICAgIChQcm8gaXMgdGhlIG9ubHkgJ1dvcmtpbmcnIHNvIGZhcikNCi0gVGVzdCBpbiBRRU1VDQoNCg==
+) >> "%temp%\res_6156.b64"
+
+certutil -decode "%temp%\res_6156.b64" "%~dp0\AMD64Readme.txt" >nul 2>&1
+del /f /q "%temp%\res_6156.b64" >nul 2>&1
+notepad %~dp0\AMD64Readme.txt
+REM
 cls
 echo --------------------------------------------------------------------------------------------
-echo Welcome to Easy-Build %EASY_BUILD_RELEASE% (This will only show once)
+echo Welcome to Easy-Build64 %EASY_BUILD_RELEASE% (This will only show once)
 echo.
-echo This tool is designed for those messing with the NT5 source, but would like a quick tool to 
-echo build through to ISO creation. It also shows info on current build env!
+echo This is the AMD64 build version, both AMD64 build images, and Easy-Build64 are in TESTING!
+echo #####################################################################
+echo #                                                                   #
+echo # MAKE SURE YOU APPLY AMD64 'SRV03RTM' PATCHES BEFORE BUILDING x86. # 
+echo # THIS IS A NEEDED REQUIREMENT OTHERWISE YOUR AMD64 BUILD WILL FAIL #
+echo #                                                                   #
+echo #####################################################################
 echo.
-echo This tool will automatically load Razzle32/64 environment and ask for UAC access. 
-echo Just create a Desktop Shortcut, and Double Click.
+echo.
 echo Over time I will add more capabilities to what this tool can do.
 echo --------------------------------------------------------------------------------------------
 echo REQUIREMENTS
@@ -131,9 +146,10 @@ echo.
 echo - Loads of free Disk Space.
 echo - Ideally to have already followed the guide to prep the source.
 echo.
+echo. NOTE: THIS IS THE AMD64 TEST VERSION.
 pause 
 REM this echo to file is used to tell if Easy-Build has done it's 'first run'
-echo EASY_BUILD_FIRST_RUN=1 > %~dp0\easy-build-check.txt
+echo EASY_BUILD64_FIRST_RUN=1 > %~dp0\easy-build-check64.txt
 goto easyinit
 :easyinit
 
@@ -205,9 +221,9 @@ REM
 :Razzle32
 echo.
 echo Loading Razzle for 32bit Windows
-if /i "%1" == "" cmd.exe /k "%~dp0\razzle.cmd free offline && cd /d %~dp0 && cd .. && easy-build.cmd"
-if /i "%1" == "free" cmd.exe /k "%~dp0\razzle.cmd free offline && cd /d %~dp0 && cd .. && easy-build.cmd"
-if /i "%1" == "chk" cmd.exe /k "%~dp0\razzle.cmd offline && cd /d %~dp0 && cd .. && easy-build.cmd"
+if /i "%1" == "" cmd.exe /k "%~dp0\razzle.cmd free offline WIN64 AMD64 && cd /d %~dp0 && cd .. && easy-build64.cmd"
+if /i "%1" == "free" cmd.exe /k "%~dp0\razzle.cmd free offline WIN64 AMD64 && cd /d %~dp0 && cd .. && easy-build64.cmd"
+if /i "%1" == "chk" cmd.exe /k "%~dp0\razzle.cmd offline WIN64 AMD64 && cd /d %~dp0 && cd .. && easy-build64.cmd"
 pause
 goto mainmenu
 :Razzle64
@@ -215,9 +231,9 @@ cd /d %~dp0
 cd ..
 echo.
 echo Loading Razzle for 64bit Windows
-if /i "%1" == "" cmd.exe /k ".\tools\razzle64.cmd free offline && easy-build.cmd"
-if /i "%1" == "free" cmd.exe /k ".\tools\razzle64.cmd free offline && easy-build.cmd"
-if /i "%1" == "chk" cmd.exe /k ".\tools\razzle64.cmd offline && easy-build.cmd"
+if /i "%1" == "" cmd.exe /k ".\tools\razzle64.cmd free offline WIN64 AMD64 && easy-build64.cmd"
+if /i "%1" == "free" cmd.exe /k ".\tools\razzle64.cmd free offline WIN64 AMD6 && easy-build64.cmd"
+if /i "%1" == "chk" cmd.exe /k ".\tools\razzle64.cmd offline WIN64 AMD64 && easy-build64.cmd"
 pause
 goto mainmenu
 REM
@@ -228,7 +244,7 @@ REM
 mode con:cols=95 lines=35
 Title Easy-Build Environment For Razzle and OpenXP Patches -- Main Menu
 if NOT exist %~dp0\replace.vbs call :replacetextvbs
-if NOT exist %~dp0\easy-prebuild-done.txt goto easyautoprebuild
+if NOT exist %~dp0\easy-prebuild64-done.txt goto easyautoprebuild
 REM set "prerel_read="
 REM for /F "skip=13 delims=" %%i in (%~d0%_NTROOT%\base\prerelease.inc) do if not defined prerel_read set "prerel_read=%%i"
 REM if "%prerel_read%" == "PRERELEASE=0" (set prerel_info=Retail) else (set prerel_info=Prerelease)
@@ -248,23 +264,25 @@ echo  Build Root: %_NTDRIVE%%_NTROOT%		Razzle Tool Path: %RazzleToolPath%
 echo  Postbuild Dir: %_NTPOSTBLD%	Binplace Exclude File: %BINPLACE_EXCLUDE_FILE%
 echo --------------------------------------------------------------------------------------------
 echo  Target Arch: %_BuildArch% - Release Type: %_BuildType% - Version: %_Build_No%
-echo  4chan Patch: %CHAN_PREPATCHED_LATEST%   Easy-Build: %EASY_BUILD_RELEASE%   Winlogon: %CHAN_WINLOGON_VERSION%
+echo  4chan Patch: %CHAN_PREPATCHED_LATEST%   Easy-Build64: %EASY_BUILD_RELEASE%   Winlogon: %CHAN_WINLOGON_VERSION%
+echo  AMD64 Patch: %AMD64_MISSING_FILES%
 echo --------------------------------------------------------------------------------------------
 echo  Here you will be able to run basic prebuild, build and postbuild scripts.
 echo  If this is your FIRST time building the currently extracted src, run Prebuild.
 echo.
 REM echo ------------------------------------------------------------------------------
-echo  patch) Download Latest Patches and Files
+echo  readme) Open the AMD64 Readme
+echo  patch) Download Latest Patches and Files  (NO AMD64 SUPPORT YET)
 echo  info) View Current Build Info.   
 echo  options) Modify Some Build Options.
-echo  pre) Run Prebuild script
+echo  pre) Run Prebuild script	
 echo --------------------------------------------------------------------------------------------
 echo  1) Clean Build (Full err path, delete object files, no checks)
 echo  2) 'Dirty' Build (Full err path, no checks)
 echo  3) Build Specific Directory Only
 echo  b/w) Open Build Error or Warning Logs
 echo --------------------------------------------------------------------------------------------
-echo - DON'T FORGET TO COPY MISSING.7Z CONTENTS
+echo - YOU WILL NEED TO MANUALLY APPLY AMD64 MISSING FILES FIRST
 echo --------------------------------------------------------------------------------------------
 echo  4) Start Postbuild
 echo  p/q) Open Postbuild's Error or Warning logs
@@ -282,7 +300,7 @@ if /i "%NTMMENU%"=="b" notepad %~d0%_NTROOT%\build.err & goto mainmenu
 if /i "%NTMMENU%"=="w" notepad %~d0%_NTROOT%\build.wrn & goto mainmenu
 if /i "%NTMMENU%"=="3" goto SpecificBLD
 REM This starts the postbuild process, see postbuild.cmd for info
-if /i "%NTMMENU%"=="4" if exist %_NTPOSTBLD%\PIDGEN.DLL (Title Easy-Build Environment For Razzle and OpenXP Patches -- Postbuild && cmd /c postbuild.cmd&& pause && goto mainmenu) else (cls && echo Missing RTM ISO files not present in %~d0\binaries.x86fre && timeout /t 10 && goto mainmenu)
+if /i "%NTMMENU%"=="4" if exist %_NTPOSTBLD%\PIDGEN.DLL (Title Easy-Build Environment For Razzle and OpenXP Patches -- Postbuild && cmd /c postbuild.cmd&& pause && goto mainmenu) else (cls && echo Missing RTM ISO files not present in %_NTPOSTBLD% && timeout /t 10 && goto mainmenu)
 REM Opens the most recent postbuild error logs in Notepad
 if /i "%NTMMENU%"=="p" notepad %_NTPOSTBLD%\build_logs\postbuild.err & goto mainmenu
 if /i "%NTMMENU%"=="q" notepad %_NTPOSTBLD%\build_logs\postbuild.wrn & goto mainmenu
@@ -296,7 +314,7 @@ REM Info page on what is set e.g DDK, NT build version and other bits
 if /i "%NTMMENU%"=="info" goto BuildInfo
 if /i "%NTMMENU%"=="options" goto BuildOptions
 if /i "%NTMMENU%"=="patch" goto easypatcherinit
-REM if /i "%NTMMENU%"=="oldpatch" goto easypatcherinitold
+if /i "%NTMMENU%"=="readme" notepad notepad %~dp0\AMD64Readme.txt
 goto mainmenu
 
 :CleanBuild
@@ -313,13 +331,24 @@ REM		-Z: No Dependancy checking of source files
 REM		-P: Print time after each directory
 REM
 cd /d %~d0%_NTROOT%
+if not exist "%~d0\binaries.x86%_BuildType%" goto AMD64ErrorNox86
 timeout /t 3 /nobreak
-echo BUILD: %_NTDRIVE%%_NTROOT% STARTED
+if exist "%_NTDRIVE%%_NTROOT%\inetsrv\iis\svcs\cmp\webdav\davcprox\fhcache_p.c" del %_NTDRIVE%%_NTROOT%inetsrv\iis\svcs\cmp\webdav\davcprox\fhcache_p.c
+echo BUILD: %_NTDRIVE%%_NTROOT% STARTED FOR AMD64
 echo.
 cmd /c build -bcZP
 echo.
 pause
 goto mainmenu
+
+:AMD64ErrorNox86
+echo.
+echo "%~d0\binaries.x86%_BuildType%" cannot be found..
+echo Please make sure x86%_BuildType% is built before AMD64%_BuildType%
+echo.
+pause.
+goto mainmenu
+
 :DirtyBuild
 Title Easy-Build Environment For Razzle and OpenXP Patches -- BUILD: %_NTDRIVE%%_NTROOT%
 REM 
@@ -332,8 +361,9 @@ REM		-Z: No Dependancy checking of source files
 REM		-P: Print time after each directory
 REM
 cd /d %~d0%_NTROOT%
+if not exist "%~d0\binaries.x86%_BuildType%" goto AMD64ErrorNox86
 timeout /t 3 /nobreak
-echo BUILD: %_NTDRIVE%%_NTROOT% STARTED
+echo BUILD: %_NTDRIVE%%_NTROOT% STARTED FOR AMD64
 echo.
 cmd /c build -bZP
 echo.
@@ -354,6 +384,7 @@ REM TODO: Add/import Razzle aliases to use with Easy-Build.
 REM 
 REM 
 cd %~dp0
+if not exist "%~d0\binaries.x86%_BuildType%" goto AMD64ErrorNox86
 cd ..
 cls
 echo ----------------------------------------------------------------------
@@ -379,7 +410,7 @@ goto mainmenu
 REM
 REM A lazy check to look for the PIDGEN.DLL file which is required from missing.7z
 REM
-if exist %_NTPOSTBLD%\PIDGEN.DLL (goto MakeISO) else (cls && echo Missing RTM ISO files not present in %~d0\binaries.x86fre && timeout /t 10 && goto mainmenu)
+if exist %_NTPOSTBLD%\PIDGEN.DLL (goto MakeISO) else (cls && echo Missing RTM ISO files not present in %_NTPOSTBLD% && timeout /t 10 && goto mainmenu)
 REM
 REM This section calls 'oscdimg.cmd' and asks for users input on desired SKU
 REM Not much to say here, it just requires the switch for running oscdimg from razzle
@@ -392,7 +423,7 @@ REM and run that var against 'oscdimg.cmd'
 cls
 echo --------------------------------------------------------------------
 echo Please enter one of the SKUs from below to build your ISO (e.g pro)
-echo Type: Key  to view needed Product Key
+echo Type: Key  to view needed Product Key - ONLY PRO WORKS CURRENTLY
 echo --------------------------------------------------------------------
 echo.
 echo  srv) Windows Server 2003 Standard Edition
@@ -419,11 +450,8 @@ REM
 cls
 echo  Here are the Keys used during Installaion for each SKU
 echo.
-echo           - SRV, SBS, DTC, BLA, PER, PRO: -
-ECHO           - M6RJ9-TBJH3-9DDXM-4VX9Q-K8M8M -
-ECHO.
-echo           -            ADS Only:          -
-echo           - QW32K-48T2T-3D2PJ-DXBWY-C6WRJ -
+echo           -   One key to rule them all    -
+ECHO           - CKY24-Q8QRH-X3KMR-C6BCY-T847Y -
 echo.
 pause
 goto MakeISO
@@ -467,7 +495,7 @@ REM
 REM TODO: Add option for user to choose x86 or x64 building on startup.
 REM For nkw I am waiting until the process becomes stable or if I decide to make my patcher.
 REM
-echo AMD64 Building: Not Supported Yet
+echo AMD64 Building: In Testing
 echo ----------------------------------------------------------------
 echo For the 4chan guide visit: (Massive Credit to Anons over there)
 echo https://rentry.co/build-win2k3
@@ -708,13 +736,13 @@ goto easyautoprebuild
 
 REM Here we run the Prebuild script and notes a file to tell this script that Prebuild has been complete
 :easyautoprestart
-call %~dp0\prebuild.cmd&& echo Prebuild_done >> %~dp0\easy-prebuild-done.txt
+call %~dp0\prebuild.cmd&& echo Prebuild_done >> %~dp0\easy-prebuild64-done.txt
 timeout /t 5
 goto mainmenu
 
 REM This is for the prebuild warning, just echos that user skipped prebuild warning, most likely because they want to manually do it
 :easynoprestart
-echo Prebuild_skipped >> %~dp0\easy-prebuild-done.txt
+echo Prebuild_skipped >> %~dp0\easy-prebuild64-done.txt
 goto mainmenu
 
 
@@ -724,7 +752,7 @@ REM This is used when Easy-Build needs to restart, mainly after patching
 echo.
 echo Easy-Build needs to restart for changes to take effect.
 pause
-start "" /I /D %~dp0 %~dp0\easy-build.cmd
+start "" /I /D %~dp0 %~dp0\easy-build64.cmd
 goto EOF
 
 
@@ -1010,7 +1038,7 @@ echo Setting File Attributes to Read/Write.
 echo This could take a long time. Afterwards Easy-Patcher will load to patch your Source.
 echo.
 pause
-if exist %~d0\srv03rtm (attrib -R -H %~d0\srv03rtm\*.* /S) else (attrib -R -H %~d0\XPSP1\*.* /S)
+if exist %~d0\srv03rtm (attrib -R -H %~d0\srv03rtm\*.* /S) else (attrib -R -H %~d0\XPSP1\*.* /S) 
 echo.
 echo Done
 goto easypatcherinit

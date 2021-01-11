@@ -1,4 +1,4 @@
-# Easy-Build GUI For Razzle
+# Easy-Build GUI For Razzle (AMD64 Update)
 Just a small script I made and use when building NT5 for a quick lazy mans build. Adapted so others can use.
 
 There will be updates over time, I need feedback and suggestions to make improvements
@@ -17,9 +17,9 @@ http://t.me/joinchat/TTfPwUpDx4b0ywMFLSjKyg
 ```
 ** What's New This Update?**
 
-- Updated Easy-Patcher to fetch latest patches
-- Added visual check to tell user that Git source version detected
-- Fixed Open warning log options so build/postbuild.wrn open 
+- Basic support for building CHK/Debug builds (run 'easy-build.cmd chk' from a shortcut or CMD line)
+- Remove old code that has been commented out for ages (Old missing patcher)
+- Added early test version for AMD64 building
 - Updated MissingFiles.cmd which deals with the missing files patch
 ```
 
@@ -27,14 +27,20 @@ http://t.me/joinchat/TTfPwUpDx4b0ywMFLSjKyg
 
 **easy-build.cmd:**
 
-- *What is it exactly? **
-  - *It is an easy to use 'frontend' to the NT5 Razzle Build Environment and 4chan/OpenXP Patches* 
+**What is it exactly? **
 
-  - *Easy to use (I hope)*
-- **How to use?**
+- *It is an easy to use 'frontend' to the NT5 Razzle Build Environment and 4chan/OpenXP Patches* 
+
+- *Easy to use (I hope)*
+
+**How to use?**
+
 - Just copy to the same folder as 'razzle.cmd', double-click, it will ask for UAC, detect if user is 32 or 64 bit, then loads razzle + easy-build
 
+- Run 'easy-build.cmd chk' from a shortcut to launch Debug builds
+  
 - **What can it do?**
+  
   - One-Click for Build, Postbuild, and ISO creation
   - Automatically detect Host Architecture and load the required razzle
   - Easy switching between:
