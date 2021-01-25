@@ -8,7 +8,7 @@ REM
 REM
 REM Below is just current internal build version and 4chan patches
 set "EASY_PATCHER_VERSION=0.2.2"
-set "EASY_BUILD_RELEASE=v0.1.17"
+set "EASY_BUILD_RELEASE=v0.2"
 set "CHAN_PREPATCHED_LATEST=win2003_prepatched_v10a"
 set "CHAN_WINLOGON_VERSION=winlogon200X_v3c"
 set "CHAN_MISSING_FILES_VER=win2003_x86-missing-binaries_v2"
@@ -235,7 +235,6 @@ REM if "%prerel_read%" == "PRERELEASE=0" (set prerel_info=Retail) else (set prer
 REM
 REM TODO: 
 REM - Add ability to change Build and PostBld output dir
-REM - Add a file patcher to download source patches etc. //Still pondering this
 REM - See if DDK can be built/enabled
 REM
 cd %_NTROOT%
@@ -259,6 +258,8 @@ echo  info) View Current Build Info.
 echo  options) Modify Some Build Options.
 echo  pre) Run Prebuild script
 echo --------------------------------------------------------------------------------------------
+echo  build) Start Automated Build
+echo  rebuild) Start Automated 'dirty' Build
 echo  1) Clean Build (Full err path, delete object files, no checks)
 echo  2) 'Dirty' Build (Full err path, no checks)
 echo  3) Build Specific Directory Only
@@ -296,8 +297,161 @@ REM Info page on what is set e.g DDK, NT build version and other bits
 if /i "%NTMMENU%"=="info" goto BuildInfo
 if /i "%NTMMENU%"=="options" goto BuildOptions
 if /i "%NTMMENU%"=="patch" goto easypatcherinit
+if /i "%NTMMENU%"=="build" goto easyautobuild
+if /i "%NTMMENU%"=="rebuild" goto easyautorebuild
 REM if /i "%NTMMENU%"=="oldpatch" goto easypatcherinitold
 goto mainmenu
+REM This is the Auto Build section
+:easyautobuild
+cls 
+if not exist "%~dp0\wget.exe" echo Please copy WGET.EXE to %RazzleToolPath% && goto mainmenu
+Title Easy-Build Environment For Razzle and OpenXP Patches -- AUTO BUILD: %_NTDRIVE%%_NTROOT%
+echo.
+echo Easy-Build will run through Build, postbuild and oscdimg.
+echo.
+echo Please type the SKU you want to build. (e.g pro, ads)
+echo.
+echo Easy-Build will presume win2003_prepatched_v10a has already been applied with the Patcher.
+echo If "win2003_x86-missing-binaries_v2.7z" is NOT already inside %RazzleToolPath%\TEMP it 
+echo will be downloaded.
+echo.
+echo.
+echo ____________________________________________________________________________________________
+set /p AUTOMENU=Select:
+echo ____________________________________________________________________________________________
+if /i "%AUTOMENU%"=="ads" set ebautosku=ads && goto easyautobuildstart
+if /i "%AUTOMENU%"=="dtc" set ebautosku=dtc && goto easyautobuildstart
+if /i "%AUTOMENU%"=="bla" set ebautosku=bla && goto easyautobuildstart
+if /i "%AUTOMENU%"=="srv" set ebautosku=srv && goto easyautobuildstart
+if /i "%AUTOMENU%"=="per" set ebautosku=per && goto easyautobuildstart
+if /i "%AUTOMENU%"=="pro" set ebautosku=pro && goto easyautobuildstart
+if /i "%AUTOMENU%"=="sbs" set ebautosku=sbs && goto easyautobuildstart
+goto easyautobuild
+
+
+
+:easyautobuildstart
+echo.
+echo Building %ebautosku% for x86
+echo BUILD: %_NTDRIVE%%_NTROOT% STARTED
+echo.
+if not exist "%~dp0\TEMP" mkdir %~dp0\TEMP
+cd /d %~d0%_NTROOT%
+echo Starting Prebuild
+echo.
+cmd /c prebuild.cmd
+echo.
+echo Starting BUILD
+echo.
+cmd /c build -bcZP
+echo.
+if exist "%_NTDRIVE%%_NTROOT%\build.err" echo An error occured during BUILD && pause && goto mainmenu
+Title Easy-Build Environment For Razzle and OpenXP Patches -- Downloading Missing Files
+echo.
+if NOT exist "%~dp0\TEMP\win2003_x86-missing-binaries_v2.7z" cmd /c wget.exe --tries=0 -O %~dp0\TEMP\win2003_x86-missing-binaries_v2.7z https://www.dropbox.com/s/syctbnu0n5u2amx/PATCHER_FILE_2.patch?dl=1
+REM adapted from MissingFiles.cmd for Auto Build, I have tried to make this CHK or FRE friendly
+cd /d %~dp0
+Title Easy-Build Environment For Razzle and OpenXP Patches -- Extracting
+if not exist "%~dp0\TEMP\win2003_x86-missing-binaries_v2" mkdir %~dp0\TEMP\win2003_x86-missing-binaries_v2
+%~dp0\TEMP\7za.exe x %~dp0\TEMP\win2003_x86-missing-binaries_v2.7z -o%~dp0\TEMP\win2003_x86-missing-binaries_v2
+cd /d %~d0
+if exist %~d0\binaries.x86%_BuildType%\pidgen.dll del %~dp0\TEMP\win2003_x86-missing-binaries_v2\binaries.x86%_BuildType%\pidgen.dll
+if exist %~dp0\srv03rtm\ds\security\gina\winlogon del %~dp0\TEMP\win2003_x86-missing-binaries_v2\binaries.x86%_BuildType%\winlogon.*
+if exist %~d0\binaries.x86%_BuildType%\duser.dll del %~dp0\TEMP\win2003_x86-missing-binaries_v2\binaries.x86%_BuildType%\duser.*
+xcopy  %~dp0\TEMP\win2003_x86-missing-binaries_v2\binaries.x86%_BuildType%\* %~d0\binaries.x86%_BuildType%\ /Y /V /E /H /C /I /R /O
+REM 
+echo.
+Title Easy-Build Environment For Razzle and OpenXP Patches -- POSTBUILD
+echo Starting Postbuild
+echo.
+cmd /c postbuild.cmd
+echo.
+echo Creating ISO
+Title Easy-Build Environment For Razzle and OpenXP Patches -- OSCDIMG %ebautosku%
+echo.
+cmd /c oscdimg.cmd %ebautosku%
+echo.
+echo Finished! 
+echo.
+pause
+goto mainmenu
+
+
+
+:easyautorebuild
+cls 
+if not exist "%~dp0\wget.exe" echo Please copy WGET.EXE to %RazzleToolPath% && goto mainmenu
+Title Easy-Build Environment For Razzle and OpenXP Patches -- AUTO BUILD: %_NTDRIVE%%_NTROOT%
+echo.
+echo Easy-Build will run through Build, postbuild and oscdimg.  ('dirty' build)
+echo Please type the SKU you want to build. (e.g pro, ads)
+echo.
+echo.
+echo Easy-Build will presume win2003_prepatched_v10a has already been applied with the Patcher.
+echo If "win2003_x86-missing-binaries_v2.7z" is NOT already inside %RazzleToolPath%\TEMP it 
+echo will be downloaded.
+echo.
+echo.
+echo ____________________________________________________________________________________________
+set /p AUTOMENU=Select:
+echo ____________________________________________________________________________________________
+if /i "%AUTOMENU%"=="ads" set ebautosku=ads && goto easyautorebuildstart
+if /i "%AUTOMENU%"=="dtc" set ebautosku=dtc && goto easyautorebuildstart
+if /i "%AUTOMENU%"=="bla" set ebautosku=bla && goto easyautorebuildstart
+if /i "%AUTOMENU%"=="srv" set ebautosku=srv && goto easyautorebuildstart
+if /i "%AUTOMENU%"=="per" set ebautosku=per && goto easyautorebuildstart
+if /i "%AUTOMENU%"=="pro" set ebautosku=pro && goto easyautorebuildstart
+if /i "%AUTOMENU%"=="sbs" set ebautosku=sbs && goto easyautorebuildstart
+goto easyautorebuild
+
+:easyautorebuildstart
+echo.
+echo Building %ebautosku% for x86
+echo BUILD: %_NTDRIVE%%_NTROOT% STARTED
+echo.
+if not exist "%~dp0\TEMP" mkdir %~dp0\TEMP
+cd /d %~d0%_NTROOT%
+echo Starting Prebuild
+echo.
+cmd /c prebuild.cmd
+echo.
+echo Starting BUILD
+echo.
+cmd /c build -bZP
+echo.
+if exist "%_NTDRIVE%%_NTROOT%\build.err" echo An error occured during BUILD && pause && goto mainmenu
+echo Downloading Missing Files
+Title Easy-Build Environment For Razzle and OpenXP Patches -- Downloading Missing Files
+echo.
+if NOT exist "%~dp0\TEMP\win2003_x86-missing-binaries_v2.7z" cmd /c wget.exe --tries=0 -O %~dp0\TEMP\win2003_x86-missing-binaries_v2.7z https://www.dropbox.com/s/syctbnu0n5u2amx/PATCHER_FILE_2.patch?dl=1
+REM adapted from MissingFiles.cmd for Auto Build, I have tried to make this CHK or FRE friendly
+cd /d %~dp0
+Title Easy-Build Environment For Razzle and OpenXP Patches -- Extracting
+if not exist "%~dp0\TEMP\win2003_x86-missing-binaries_v2" mkdir %~dp0\TEMP\win2003_x86-missing-binaries_v2
+%~dp0\TEMP\7za.exe x %~dp0\TEMP\win2003_x86-missing-binaries_v2.7z -o%~dp0\TEMP\win2003_x86-missing-binaries_v2
+cd /d %~d0
+if exist %~d0\binaries.x86%_BuildType%\pidgen.dll del %~dp0\TEMP\win2003_x86-missing-binaries_v2\binaries.x86%_BuildType%\pidgen.dll
+if exist %~dp0\srv03rtm\ds\security\gina\winlogon del %~dp0\TEMP\win2003_x86-missing-binaries_v2\binaries.x86%_BuildType%\winlogon.*
+if exist %~d0\binaries.x86%_BuildType%\duser.dll del %~dp0\TEMP\win2003_x86-missing-binaries_v2\binaries.x86%_BuildType%\duser.*
+xcopy  %~dp0\TEMP\win2003_x86-missing-binaries_v2\binaries.x86%_BuildType%\* %~d0\binaries.x86%_BuildType%\ /Y /V /E /H /C /I /R /O
+REM 
+echo.
+Title Easy-Build Environment For Razzle and OpenXP Patches -- POSTBUILD
+echo Starting Postbuild
+echo.
+cmd /c postbuild.cmd
+echo.
+echo Creating ISO
+Title Easy-Build Environment For Razzle and OpenXP Patches -- OSCDIMG %ebautosku%
+echo.
+cmd /c oscdimg.cmd %ebautosku%
+echo.
+echo Finished! 
+echo.
+pause
+goto mainmenu
+
+
 
 :CleanBuild
 Title Easy-Build Environment For Razzle and OpenXP Patches -- BUILD: %_NTDRIVE%%_NTROOT%

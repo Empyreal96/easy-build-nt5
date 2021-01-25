@@ -5,8 +5,9 @@ There will be updates over time, I need feedback and suggestions to make improve
 THIS IS IN TESTING, YOU MAY ENCOUNTER ERRORS
 NOTE: This isn't a new build environment, it is a wrapper for Razzle
 
-Join the Telegram group!
-http://t.me/joinchat/TTfPwUpDx4b0ywMFLSjKyg
+Join the Matrix group!
+
+https://matrix.to/#/!febkSwamiedCsfevDe:matrix.org?via=matrix.org
 
 ![](https://github.com/Empyreal96/easy-build-nt5/raw/main/easy-build.png)
 
@@ -17,10 +18,8 @@ http://t.me/joinchat/TTfPwUpDx4b0ywMFLSjKyg
 ```
 ** What's New This Update?**
 
-- Basic support for building CHK/Debug builds (run 'easy-build.cmd chk' from a shortcut or CMD line)
-- Remove old code that has been commented out for ages (Old missing patcher)
-- Added early test version for AMD64 building
-- Updated MissingFiles.cmd which deals with the missing files patch
+- Added first attempt at a fully Automatic Build through (Prebuild to ISO Creation)
+
 ```
 
 
@@ -54,5 +53,8 @@ http://t.me/joinchat/TTfPwUpDx4b0ywMFLSjKyg
   - Provide Links to 'Official' Build Guide
   - Checks in place to prevent building without missing files
   
-  
   **Note: This script uses 7za.exe and 7za.dll (encoded in/extracted from base64) from "https://www.7-zip.org/download.html" The source can be found there.**
+  
+  **This Tool also uses WGET from here: https://eternallybored.org/misc/wget/**
+  
+  
