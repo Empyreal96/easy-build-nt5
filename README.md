@@ -1,6 +1,8 @@
 # Easy-Build GUI For Razzle
 *Final update for foreseeable future due to lack of time*
 
+This update is **UNTESTED**
+
 Just a small script I made and use when building NT5 for a quick lazy mans build. Adapted so others can use.
 **THIS IS IN TESTING, YOU MAY ENCOUNTER ERRORS**
 **NOTE: This isn't a new build environment, it is a wrapper for Razzle**
